@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.EditWordController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <headerText>
+        Edit an existing word!
+    </headerText>
+    <content>
+        <GridPane vgap="10" hgap="10">
+            <Label text="Word: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="foreignWordField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Translation: " GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="translatedWordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        </GridPane>
+    </content>
+
+</DialogPane>

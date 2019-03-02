@@ -1,0 +1,7 @@
+Lista funkcji, które trzeba zaimplementować w przyszłości:
+1. Możliwość dodawania kursów i usuwanie
+2. Masowe dodawanie słowek oraz eksport plików
+3. Czasowe odświeżanie słówek
+4. Odświeżanie wszystkich słówek
+5. Eksport bazy danych słówek do pliku
+6.

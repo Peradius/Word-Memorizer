@@ -148,7 +148,7 @@ public class Datasource {
         System.out.println(CONNECTION_STRING);
     }
 
-    public List<Course> getCourses() {
+    public List<Course> getCourses(){
         try {
             List<Course> courseList = new LinkedList<>();
             ResultSet results = queryCourses.executeQuery();
@@ -167,7 +167,6 @@ public class Datasource {
 
                 courseList.add(newCourse);
             }
-
             return courseList;
         } catch (SQLException e) {
             System.out.println("Error getting courses!");
@@ -194,7 +193,6 @@ public class Datasource {
 
                 vocabulary.add(newWord);
             }
-
             return vocabulary;
 
         } catch (SQLException e) {
@@ -234,34 +232,16 @@ public class Datasource {
 
     public void addNewWordToLevel(int courseID, int levelID, String wordValue, String translationValue) {
         try {
-            connection.close();
-
-            connection.setAutoCommit(false);
-
             addNewWord.setInt(1, courseID);
             addNewWord.setInt(2, levelID);
             addNewWord.setString(3, wordValue);
             addNewWord.setString(4, translationValue);
 
-            int affectedRows = addNewWord.executeUpdate();
-
-            if(affectedRows == 1) {
-                connection.commit();
-            } else {
-                throw new SQLException("Failed to add a new word!");
-            }
+            addNewWord.executeQuery();
         } catch (SQLException e) {
             System.out.println("Error while adding new word to the level! \n");
             e.printStackTrace();
             return;
-        }
-        finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                System.out.println("Failed restoring autoCommit to true!");
-                e.getMessage();
-            }
         }
     }
 

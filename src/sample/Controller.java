@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Controller {
-    private List<Datasource> coursesList;
+    private List<Course> coursesList;
     private ObservableList<ObservableList> data;
 
     @FXML

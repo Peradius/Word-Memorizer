@@ -2,9 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import sample.Data.Course;
 import sample.Data.Datasource;
-import sample.Data.Word;
 
 public class AddNewWordController {
 
@@ -14,12 +12,11 @@ public class AddNewWordController {
     @FXML
     TextField translatedWordField;
 
-    public void processResults() {
+    public void processResults(int courseID) {
         String foreignWord = foreignWordField.getText().trim();
         String translatedWord = translatedWordField.getText().trim();
 
-
-        Datasource.getInstance().addNewWordToDB(foreignWord, translatedWord);
+        Datasource.getInstance().addNewWordToLevel(courseID, 1, foreignWord, translatedWord);
 
         System.out.println("Word " + foreignWord + " added.");
 

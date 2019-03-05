@@ -27,6 +27,7 @@
                 <Button text="Add course" onAction="#addCourse"/>
                 <Button text="Edit course" onAction="#editCourse"/>
                 <Button text="Remove course" onAction="#removeCourse"/>
+                <Button text="Load course" onAction="#loadCourse"/>
             </HBox>
         </VBox>
     </left>

@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,10 +15,8 @@ import sample.Data.Datasource;
 import sample.Data.Word;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class Controller {
@@ -44,6 +41,11 @@ public class Controller {
     @FXML
     private TableColumn<Word, String> columnPolish;
 
+    private Course selectedCourse;
+    private int selectedCourseID;
+
+
+
     @FXML
     public void addWord() {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -66,9 +68,8 @@ public class Controller {
 
         if(result.isPresent() && result.get() == ButtonType.OK) {
             AddNewWordController controller = fxmlLoader.getController();
-            controller.processResults();
-            courseTableView.getItems().setAll(Datasource.getInstance().queryVocabulary());
-
+            controller.processResults(selectedCourseID);
+            courseTableView.getItems().setAll(selectedCourse.getVocabulary());
         }
     }
 
@@ -76,79 +77,112 @@ public class Controller {
 
     @FXML
     public void removeWord() {
-        if(courseTableView.getSelectionModel().getSelectedItem() != null) {
-            Word selectedWord = (Word)courseTableView.getSelectionModel().getSelectedItem();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete a contact");
-            alert.setHeaderText("Do you really want to delete " + selectedWord.getForeignWord() + "?");
-            Optional<ButtonType> result = alert.showAndWait();
 
-            if(result.isPresent() && result.get() == ButtonType.OK) {
-                int id = selectedWord.getIdWord();
-                Datasource.getInstance().removeWordFromDB(id);
-                System.out.println("Word deleted!");
-                courseTableView.getItems().setAll(Datasource.getInstance().queryVocabulary());
-
-            }
-        }
+        System.out.println("Remove word button clicked!");
+//        if(courseTableView.getSelectionModel().getSelectedItem() != null) {
+//            Word selectedWord = (Word)courseTableView.getSelectionModel().getSelectedItem();
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//            alert.setTitle("Delete a contact");
+//            alert.setHeaderText("Do you really want to delete " + selectedWord.getForeignWord() + "?");
+//            Optional<ButtonType> result = alert.showAndWait();
+//
+//            if(result.isPresent() && result.get() == ButtonType.OK) {
+//                int id = selectedWord.getIdWord();
+//                Datasource.getInstance().removeWordFromDB(id);
+//                System.out.println("Word deleted!");
+//                courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromCourse());
+//
+//            }
+//        }
     }
 
     @FXML
     public void reviewWords() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("reviewWindow.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setTitle("Review Session");
-            stage.setScene(scene);
-            stage.show();
-        } catch(IOException e) {
-            System.out.println("Failed loading \"reviewWindow\"");
-            return;
-        }
-
-        ReviewWindowController controller = fxmlLoader.getController();
-        controller.processReview();
+        System.out.println("Review button clicked!");
+//
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        fxmlLoader.setLocation(getClass().getResource("reviewWindow.fxml"));
+//        try {
+//            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+//            Stage stage = new Stage();
+//            stage.setTitle("Review Session");
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch(IOException e) {
+//            System.out.println("Failed loading \"reviewWindow\"");
+//            return;
+//        }
+//
+//        ReviewWindowController controller = fxmlLoader.getController();
+//        controller.setCourseID(courseID);
+//        controller.processReview();
 
     }
 
     @FXML
     public void editWord() {
-        if(courseTableView.getSelectionModel().getSelectedItem() != null) {
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.initOwner(mainBorderPane.getScene().getWindow());
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("editWordWindow.fxml"));
-
-            try {
-                dialog.getDialogPane().setContent(fxmlLoader.load());
-            } catch (IOException e) {
-                System.out.println("Failed loading \"editWordWindow\"");
-                return;
-            }
-
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
-            EditWordController controller = fxmlLoader.getController();
-            Word selectedWord = (Word) courseTableView.getSelectionModel().getSelectedItem();
-            controller.populateFields(selectedWord);
-
-            Optional<ButtonType> result = dialog.showAndWait();
-
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                int wordID = selectedWord.getIdWord();
-                controller.updateWord(wordID);
-
-                courseTableView.getItems().setAll(Datasource.getInstance().queryVocabulary());
-            }
-        }
+        System.out.println("Edit button clicked!");
+//
+//        if(courseTableView.getSelectionModel().getSelectedItem() != null) {
+//            Dialog<ButtonType> dialog = new Dialog<>();
+//            dialog.initOwner(mainBorderPane.getScene().getWindow());
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            fxmlLoader.setLocation(getClass().getResource("editWordWindow.fxml"));
+//
+//            try {
+//                dialog.getDialogPane().setContent(fxmlLoader.load());
+//            } catch (IOException e) {
+//                System.out.println("Failed loading \"editWordWindow\"");
+//                return;
+//            }
+//
+//            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+//            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+//
+//            EditWordController controller = fxmlLoader.getController();
+//            Word selectedWord = (Word) courseTableView.getSelectionModel().getSelectedItem();
+//            controller.populateFields(selectedWord);
+//
+//            Optional<ButtonType> result = dialog.showAndWait();
+//
+//            if (result.isPresent() && result.get() == ButtonType.OK) {
+//                int wordID = selectedWord.getIdWord();
+//                controller.updateWord(wordID);
+//
+//                courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromCourse());
+//            }
+//        }
     }
 
     @FXML
     public void addCourse() {
-        System.out.println("Add course button pressed. Function to be implemented!");
+
+        System.out.println("Addcourse button clicked!");
+
+//        Dialog<ButtonType> dialog = new Dialog<>();
+//        dialog.initOwner(mainBorderPane.getScene().getWindow());
+//        FXMLLoader fxmlLoader = new FXMLLoader();
+//        fxmlLoader.setLocation(getClass().getResource("addNewCourseWindow.fxml"));
+//
+//        try {
+//            dialog.getDialogPane().setContent(fxmlLoader.load());
+//        } catch(IOException e) {
+//            System.out.println("Failed loading \"addnewCourseWindow.fxml\"");
+//            e.printStackTrace();
+//            return;
+//        }
+//
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+//
+//        Optional<ButtonType> result = dialog.showAndWait();
+//
+//        if(result.isPresent() && result.get() == ButtonType.OK) {
+//            AddNewWordController controller = fxmlLoader.getController();
+//            controller.processResults();
+//            courseListView.getItems().setAll(Datasource.getInstance().getVocabularyFromCourse());
+//
+//        }
     }
 
     @FXML
@@ -161,12 +195,38 @@ public class Controller {
         System.out.println("Remove course button pressed. Function to be implemented!");
     }
 
-    public void initialize() {
-        columnID.setCellValueFactory(new PropertyValueFactory<>("idWord"));
-        columnEnglish.setCellValueFactory(new PropertyValueFactory<>("foreignWord"));
-        columnPolish.setCellValueFactory(new PropertyValueFactory<>("translatedWord"));
+    @FXML
+    public void loadCourse() {
+        System.out.println("Load course button pressed.");
 
-        courseTableView.getItems().setAll(Datasource.getInstance().queryVocabulary());
+        if(courseListView.getSelectionModel().getSelectedItem() != null) {
+            selectedCourse = courseListView.getSelectionModel().getSelectedItem();
+            selectedCourseID = selectedCourse.getCourseID();
+
+            List<Word> vocab = Datasource.getInstance().getVocabularyFromCourse(selectedCourseID);
+            selectedCourse.setVocabulary(vocab);
+
+            columnID.setCellValueFactory(new PropertyValueFactory<>("idWord"));
+            columnEnglish.setCellValueFactory(new PropertyValueFactory<>("foreignWord"));
+            columnPolish.setCellValueFactory(new PropertyValueFactory<>("translatedWord"));
+
+            courseTableView.getItems().setAll(selectedCourse.getVocabulary());
+
+        }
+    }
+
+    public void initialize() {
+        courseListView.getItems().setAll(Datasource.getInstance().getCourses());
+
+        courseListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                if(t1 != null) {
+                    Course selectedCourse = (Course) t1;
+                    System.out.println(selectedCourse.getCourseName() + " selected.");
+                } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
+            }
+        });
 
         courseTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override

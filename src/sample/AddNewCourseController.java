@@ -26,7 +26,7 @@ public class AddNewCourseController {
         String courseLanguage = courseLangaugeField.getText().trim();
 
 
-//        Datasource.getInstance().addNewWordToDB(foreignWord, translatedWord);
+//        Datasource.getInstance().addNewWordToLevel(foreignWord, translatedWord);
 
     }
 

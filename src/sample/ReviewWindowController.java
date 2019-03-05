@@ -11,6 +11,19 @@ import java.util.Optional;
 
 public class ReviewWindowController {
 
+    // ID from which the words will be taken (CourseID for now, but also LevelID for the future)
+    private int courseID;
+
+    public int getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
+    }
+
+
+
     @FXML
     DialogPane reviewWindowPane;
 
@@ -53,7 +66,7 @@ public class ReviewWindowController {
     private int correctAnswersAmount = 0;
     private int wrongAnswersAmount = 0;
     private int x = 0;
-    private List<Word> vocabularyToReview = Datasource.getInstance().fetchVocabularyToReviewList();
+    private List<Word> vocabularyToReview = Datasource.getInstance().getVocabularyFromCourse(courseID);
     private int reviewSessionSize = vocabularyToReview.size();
 
     public void processReview() {

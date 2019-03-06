@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import sample.Data.Datasource;
 import sample.Data.Word;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,10 +67,12 @@ public class ReviewWindowController {
     private int correctAnswersAmount = 0;
     private int wrongAnswersAmount = 0;
     private int x = 0;
-    private List<Word> vocabularyToReview = Datasource.getInstance().getVocabularyFromCourse(courseID);
-    private int reviewSessionSize = vocabularyToReview.size();
+    private List<Word> vocabularyToReview = new LinkedList<>();
+    private int reviewSessionSize;
 
     public void processReview() {
+        vocabularyToReview = Datasource.getInstance().getVocabularyFromCourse(courseID);
+        reviewSessionSize = vocabularyToReview.size();
         totalWordsLabel.setText("" + reviewSessionSize);
         reviewSingleWord();
     }

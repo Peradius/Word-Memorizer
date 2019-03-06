@@ -10,25 +10,18 @@ public class AddNewCourseController {
     private TextField courseNameField;
 
     @FXML
-    private TextField databaseNameField;
-
-    @FXML
     private TextField teachingLanguageField;
 
     @FXML
-    private TextField courseLangaugeField;
+    private TextField courseLanguageField;
 
     public void processResults() {
         String courseName= courseNameField.getText().trim();
-        String databaseName= databaseNameField.getText().trim();
-        databaseName = databaseName.replaceAll(" ", "");
         String teachingLanguage = teachingLanguageField.getText().trim();
-        String courseLanguage = courseLangaugeField.getText().trim();
+        String courseLanguage = courseLanguageField.getText().trim();
 
+        Datasource.getInstance().addNewCourse(courseName, teachingLanguage, courseLanguage);
 
-//        Datasource.getInstance().addNewWordToLevel(foreignWord, translatedWord);
-
+        System.out.println("Course " + courseName + " added.");
     }
-
-
 }

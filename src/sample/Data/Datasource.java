@@ -1,7 +1,6 @@
 package sample.Data;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -81,18 +80,23 @@ public class Datasource {
             + COLUMN_WORDS_FOREIGN + " = ?, " + COLUMN_WORDS_TRANSLATED + " = ? WHERE " + COLUMN_WORDS_ID + " = ?";
     // UPDATE Words SET Foreign_Word = "?", Translated_Word = "?" WHERE ID_Word = "?"
 
+    public static final String DELETE_COURSE = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDCOURSE + " = ?;"
+            + " DELETE FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_IDCOURSE + " = ?;"
+            + " DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_COURSES_ID + " = ?";
+    //DELETE FROM Words WHERE ID_Course = 5;
+    //DELETE FROM Levels WHERE ID_Course = 5;
+    //DELETE FROM Courses WHERE ID_Course = 5;
+
+    public static final String DELETE_LEVEL_FROM_COURSE = "DELETE FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_ID + " = ?";
+    // DELETE FROM Levels WHERE ID_Level = "?"
+
     public static final String DELETE_WORD = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_ID + " = ?";
     // DELETE FROM Words WHERE ID_Word = "?"
 
-
-
-
-//4. edytuj kurs (nazwa kursu)
-//5. edytuj poziom (nazwa poziomu)
-
-
-
-
+    public static final String UPDATE_COURSE = "UPDATE " + TABLE_COURSES + " SET "
+            + COLUMN_COURSES_NAME + " = ?, " + COLUMN_COURSES_COURSELANGUAGE + " = ?, " + COLUMN_COURSES_USERSLANGUAGE + " = ? WHERE "
+            + COLUMN_COURSES_ID + " = ?";
+    // UPDATE Courses SET Course_Name = ?, Course_Language = ?, Users_Language = ? WHERE ID_Course = ?
 
     // List of all the necessary PreparedStatements used in this project
 
@@ -103,6 +107,9 @@ public class Datasource {
     private PreparedStatement queryVocabularyFromLevel;
     private PreparedStatement queryLevelsFromCourse;
     private PreparedStatement updateWord;
+    private PreparedStatement updateCourse;
+    private PreparedStatement deleteCourse;
+    private PreparedStatement deleteLevelFromCourse;
     private PreparedStatement deleteWord;
     private PreparedStatement queryCourses;
 
@@ -129,6 +136,9 @@ public class Datasource {
             queryVocabularyFromLevel = connection.prepareStatement(QUERY_VOCAB_FROM_LEVEL);
             queryLevelsFromCourse = connection.prepareStatement(QUERY_LEVELS_FROM_COURSE);
             updateWord = connection.prepareStatement(UPDATE_WORD);
+            updateCourse = connection.prepareStatement(UPDATE_COURSE);
+            deleteCourse = connection.prepareStatement(DELETE_COURSE);
+            deleteLevelFromCourse = connection.prepareStatement(DELETE_LEVEL_FROM_COURSE);
             deleteWord = connection.prepareStatement(DELETE_WORD);
             queryCourses = connection.prepareStatement(QUERY_COURSES);
 
@@ -203,84 +213,228 @@ public class Datasource {
     }
 
     public List<Word> getVocabularyFromLevel(int levelID) {
+//        try {
+//            List<Word> vocabulary = new LinkedList<>();
+//            queryVocabularyFromLevel.setInt(1, levelID);
+//            ResultSet results = queryLevelsFromCourse.executeQuery();
+//
+//            while (results.next()) {
+//                int idWord = results.getInt(INDEX_WORDS_ID);
+//                String foreignWord = results.getString(INDEX_WORDS_FOREIGN);
+//                String translatedWord = results.getString(INDEX_WORDS_TRANSLATED);
+//
+//                Word newWord = new Word();
+//                newWord.setIdWord(idWord);
+//                newWord.setForeignWord(foreignWord);
+//                newWord.setTranslatedWord(translatedWord);
+//
+//                vocabulary.add(newWord);
+//            }
+//
+//            return vocabulary;
+//
+//        } catch (SQLException e) {
+//            System.out.println("Error while getting vocabulary from the database! \n");
+//            e.printStackTrace();
+//            return null;
+//        }
+        return null;
+    }
+
+    public void addNewCourse(String courseName, String teachingLanguage, String usersLanguage) {
         try {
-            List<Word> vocabulary = new LinkedList<>();
-            queryVocabularyFromLevel.setInt(1, levelID);
-            ResultSet results = queryLevelsFromCourse.executeQuery();
+            connection.setAutoCommit(false);
 
-            while (results.next()) {
-                int idWord = results.getInt(INDEX_WORDS_ID);
-                String foreignWord = results.getString(INDEX_WORDS_FOREIGN);
-                String translatedWord = results.getString(INDEX_WORDS_TRANSLATED);
+            addNewCourse.setString(1, courseName);
+            addNewCourse.setString(2, teachingLanguage);
+            addNewCourse.setString(3, usersLanguage);
 
-                Word newWord = new Word();
-                newWord.setIdWord(idWord);
-                newWord.setForeignWord(foreignWord);
-                newWord.setTranslatedWord(translatedWord);
-
-                vocabulary.add(newWord);
+            int affectedRows = addNewCourse.executeUpdate();
+            if(affectedRows == 1) {
+                System.out.println("Course " + courseName + " sucessfully added to the database!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed adding new course!");
             }
+        } catch (Exception e) {
+            System.out.println("Insert new course exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
+        }
+    }
 
-            return vocabulary;
+    public void updateCourseInDB(int courseID, String newCourseName, String newCourseLanguage, String newUsersLanguage) {
+        try {
+            connection.setAutoCommit(false);
 
-        } catch (SQLException e) {
-            System.out.println("Error while getting vocabulary from the database! \n");
-            e.printStackTrace();
-            return null;
+            updateCourse.setString(1, newCourseName);
+            updateCourse.setString(2, newCourseLanguage);
+            updateCourse.setString(3, newUsersLanguage);
+            updateCourse.setInt(4, courseID);
+
+            updateCourse.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Update course exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
+        }
+    }
+
+    public void deleteCourseFromDB(int courseID) {
+        try {
+            connection.setAutoCommit(false);
+
+            deleteCourse.setInt(1, courseID);
+            deleteCourse.setInt(2, courseID);
+            deleteCourse.setInt(3, courseID);
+
+            if(deleteCourse.execute()) {
+                System.out.println("Course with ID " + courseID + " sucessfully deleted from the database!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed deleting course!");
+            }
+        } catch (Exception e) {
+            System.out.println("Delete course exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
         }
     }
 
     public void addNewWordToLevel(int courseID, int levelID, String wordValue, String translationValue) {
         try {
+            connection.setAutoCommit(false);
+
             addNewWord.setInt(1, courseID);
             addNewWord.setInt(2, levelID);
             addNewWord.setString(3, wordValue);
             addNewWord.setString(4, translationValue);
 
-            addNewWord.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error while adding new word to the level! \n");
-            e.printStackTrace();
-            return;
+            int affectedRows = addNewWord.executeUpdate();
+            if(affectedRows == 1) {
+                System.out.println("Word " + wordValue + " sucessfully added to the database!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed adding new word!");
+            }
+        } catch (Exception e) {
+            System.out.println("Insert new word exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void updateWordInDB(int wordID, String newWordValue, String newTranslationValue) {
         try {
+            connection.setAutoCommit(false);
+
             updateWord.setString(1, newWordValue);
             updateWord.setString(2, newTranslationValue);
             updateWord.setInt(3, wordID);
 
-            updateWord.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error updating a word in the database!");
-            e.printStackTrace();
-            return;
+            int affectedRows = updateWord.executeUpdate();
+            if(affectedRows == 1) {
+                System.out.println("Word " + newWordValue + " sucessfully updated in the database!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed updating word!");
+            }
+        } catch (Exception e) {
+            System.out.println("Update word exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
         }
     }
 
     public void removeWordFromDB(int wordID) {
         try {
+            connection.setAutoCommit(false);
+
             deleteWord.setInt(1, wordID);
 
-            deleteWord.executeUpdate();
-        } catch(SQLException e) {
-            System.out.println("Error deleting record from database");
-            e.printStackTrace();
-            return;
+            int affectedRows = deleteWord.executeUpdate();
+            if(affectedRows == 1) {
+                System.out.println("Word ID=" + wordID + " sucessfully deleted from the database!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed deleting word!");
+            }
+        } catch (Exception e) {
+            System.out.println("Delete word exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
         }
     }
 
@@ -306,6 +460,15 @@ public class Datasource {
             }
             if(updateWord != null) {
                 updateWord.close();
+            }
+            if(updateCourse != null) {
+                updateCourse.close();
+            }
+            if(deleteCourse != null) {
+                deleteCourse.close();
+            }
+            if(deleteLevelFromCourse != null) {
+                deleteLevelFromCourse.close();
             }
             if(deleteWord != null) {
                 deleteWord.close();

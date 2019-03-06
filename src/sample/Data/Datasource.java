@@ -237,7 +237,7 @@ public class Datasource {
             addNewWord.setString(3, wordValue);
             addNewWord.setString(4, translationValue);
 
-            addNewWord.executeQuery();
+            addNewWord.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error while adding new word to the level! \n");
             e.printStackTrace();

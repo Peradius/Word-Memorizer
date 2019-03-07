@@ -24,33 +24,17 @@
             <ListView fx:id="courseListView">
             </ListView>
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="248.0">
-                <Button text="Add course" onAction="#addCourse"/>
-                <Button text="Edit course" onAction="#editCourse"/>
-                <Button text="Remove course" onAction="#removeCourse"/>
-                <Button text="Load course" onAction="#loadCourse"/>
+                <Button text="Add currentCourse" onAction="#addCourse"/>
+                <Button text="Edit currentCourse" onAction="#editCourse"/>
+                <Button text="Remove currentCourse" onAction="#removeCourse"/>
+                <Button text="Load currentCourse" onAction="#loadCourse"/>
             </HBox>
         </VBox>
     </left>
 
     <center>
         <VBox prefHeight="423.0" prefWidth="248.0">
-            <TableView fx:id="courseTableView" prefHeight="382.0" prefWidth="248.0" BorderPane.alignment="CENTER">
-                <columns>
-                    <TableColumn fx:id="columnID" text="ID" />
-                    <TableColumn fx:id="columnEnglish" text="English" />
-                    <TableColumn fx:id="columnPolish" text="Polish" />
-                </columns>
-            </TableView>
-
-            <HBox alignment="CENTER" prefHeight="0.0" prefWidth="248.0">
-                <Button text="Add word" onAction="#addWord"/>
-                <Button text="Edit word" onAction="#editWord"/>
-                <Button text="Remove word" onAction="#removeWord"/>
-                <Button text="Review" onAction="#reviewWords"/>
-                <opaqueInsets>
-                   <Insets top="10.0" />
-                </opaqueInsets>
-            </HBox>
+            <Label text="This section is to be implemented" />
         </VBox>
     </center>
 

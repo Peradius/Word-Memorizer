@@ -1,7 +1,20 @@
 Lista funkcji, które trzeba zaimplementować w przyszłości:
-1. Możliwość dodawania kursów i usuwanie
 2. Masowe dodawanie słowek oraz eksport plików
 3. Czasowe odświeżanie słówek
-4. Odświeżanie wszystkich słówek
-5. Eksport bazy danych słówek do pliku
-6.
+4. Eksport bazy danych słówek do pliku
+
+
+FIX!
+
+Podczas klikania poziomu, nie wyświetlają się słówka z tego poziomu!
+
+Nie działa edit level
+
+Zaimplementować exit course
+
+Zablokować możliwość wczytania dwóch takich samych kursów
+
+Przy wyjściu Xem, nie zapisują się poziomy, ale zapisują się słowa
+// Edit: wyglada na to, ze nie nie odswieza sie lista, poniewaz po dodaniu nowego poziomu
+// pojawiaja sie poziomy. CHyba brakuje refreshList();
+

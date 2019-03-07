@@ -12,7 +12,7 @@
             prefHeight="400.0" prefWidth="600.0">
 
     <headerText>
-        Edit an existing course!
+        Edit an existing currentCourse!
     </headerText>
     <content>
         <GridPane vgap="10" hgap="10">

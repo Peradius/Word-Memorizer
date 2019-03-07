@@ -76,6 +76,9 @@ public class Datasource {
     public static final String QUERY_LEVELS_FROM_COURSE = "SELECT * FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_IDCOURSE + " = ?";
     // SELECT * FROM Levels WHERE ID_Course = ?;
 
+    public static final String UPDATE_LEVEL = "UPDATE " + TABLE_LEVELS + " SET " + COLUMN_LEVELS_NAME + " = ?";
+    // UPDATE Levels SET Level_Name = ?
+
     public static final String UPDATE_WORD = "UPDATE " + TABLE_WORDS + " SET "
             + COLUMN_WORDS_FOREIGN + " = ?, " + COLUMN_WORDS_TRANSLATED + " = ? WHERE " + COLUMN_WORDS_ID + " = ?";
     // UPDATE Words SET Foreign_Word = "?", Translated_Word = "?" WHERE ID_Word = "?"
@@ -95,6 +98,9 @@ public class Datasource {
     public static final String DELETE_ALL_WORDS_FROM_COURSE = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDCOURSE + " = ?";
     // DELETE FROM Words WHERE ID_Course = "?"
 
+    public static final String DELETE_ALL_WORDS_FROM_LEVEL = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDLEVEL + " = ?";
+    // DELETE FROM Words WHERE ID_Level = ?
+
     public static final String UPDATE_COURSE = "UPDATE " + TABLE_COURSES + " SET "
             + COLUMN_COURSES_NAME + " = ?, " + COLUMN_COURSES_COURSELANGUAGE + " = ?, " + COLUMN_COURSES_USERSLANGUAGE + " = ? WHERE "
             + COLUMN_COURSES_ID + " = ?";
@@ -111,22 +117,22 @@ public class Datasource {
     private PreparedStatement queryVocabularyFromLevel;
     private PreparedStatement queryLevelsFromCourse;
 
-    private PreparedStatement updateWord;
     private PreparedStatement updateCourse;
+    private PreparedStatement updateLevel;
+    private PreparedStatement updateWord;
 
     private PreparedStatement deleteCourse;
     private PreparedStatement deleteAllLevelsFromCourse;
     private PreparedStatement deleteLevelByID;
     private PreparedStatement deleteAllWordsFromCourse;
     private PreparedStatement deleteWordByID;
+    private PreparedStatement deleteAllWordsFromLevel;
 
 
 
 
 
     // To be commented !!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1!!!!!!!!!!!!!1
-
-     // w datasourcie mam statementsy, funkcje (metody), a w comtrollerze wywoluje te metody wraz z parmaetrami w nawiasach
 
     private Connection connection;
     private static Datasource instance = new Datasource();
@@ -144,14 +150,16 @@ public class Datasource {
             queryVocabularyFromCourse = connection.prepareStatement(QUERY_VOCAB_FROM_COURSE);
             queryVocabularyFromLevel = connection.prepareStatement(QUERY_VOCAB_FROM_LEVEL);
             queryLevelsFromCourse = connection.prepareStatement(QUERY_LEVELS_FROM_COURSE);
-            updateWord = connection.prepareStatement(UPDATE_WORD);
             updateCourse = connection.prepareStatement(UPDATE_COURSE);
+            updateWord = connection.prepareStatement(UPDATE_WORD);
+            updateLevel = connection.prepareStatement(UPDATE_LEVEL);
             deleteCourse = connection.prepareStatement(DELETE_COURSE);
             deleteLevelByID = connection.prepareStatement(DELETE_LEVEL_BY_ID);
             deleteWordByID = connection.prepareStatement(DELETE_WORD_BY_ID);
             queryCourses = connection.prepareStatement(QUERY_COURSES);
             deleteAllLevelsFromCourse = connection.prepareStatement(DELETE_ALL_LEVELS_FROM_COURSE);
             deleteAllWordsFromCourse = connection.prepareStatement(DELETE_ALL_WORDS_FROM_COURSE);
+            deleteAllWordsFromLevel = connection.prepareStatement(DELETE_ALL_WORDS_FROM_LEVEL);
 
             return true;
         } catch (SQLException e) {
@@ -168,6 +176,99 @@ public class Datasource {
     public static void printTrace() {
         System.out.println(CONNECTION_STRING);
     }
+
+    public void deleteLevelFromDB(int levelID) {
+        try {
+            connection.setAutoCommit(false);
+
+            deleteAllWordsFromLevel.setInt(1, levelID);
+            deleteLevelByID.setInt(1, levelID);
+
+            deleteAllWordsFromLevel.executeUpdate();
+            deleteLevelByID.executeUpdate();
+
+            connection.commit();
+
+        } catch (Exception e) {
+            System.out.println("Delete level exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
+        }
+    }
+
+    public void addNewLevelToCourse(int courseID, String levelName) {
+        try {
+            connection.setAutoCommit(false);
+
+            addNewLevel.setInt(1, courseID);
+            addNewLevel.setString(2, levelName);
+
+            int affectedRows = addNewLevel.executeUpdate();
+            if(affectedRows == 1) {
+                System.out.println("Level " + levelName + " sucessfully added to the Course!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed adding new level!");
+            }
+        } catch (Exception e) {
+            System.out.println("Insert new level exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
+        }
+    }
+
+    public void updateLevelInDB(int levelID, String newLevelName) {
+        try {
+            connection.setAutoCommit(false);
+
+
+
+            updateCourse.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Update course exception: " + e.getMessage());
+            try {
+                System.out.println("Performing a rollback!");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("Rollback failed! " + e1.getMessage());
+            }
+        }
+        finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch(SQLException e) {
+                System.out.println("Couldn't reset auto-commit! " + e.getMessage());
+            }
+        }
+    }
+
+
+
 
     public List<Course> getCourses(){
         try {
@@ -192,6 +293,31 @@ public class Datasource {
         } catch (SQLException e) {
             System.out.println("Error getting courses!");
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Level> getLevelsFromCourse(int courseID) {
+        try {
+            List<Level> levels = new LinkedList<>();
+            queryLevelsFromCourse.setInt(1, courseID);
+            ResultSet results = queryLevelsFromCourse.executeQuery();
+
+            while (results.next()) {
+                int idLevel = results.getInt(INDEX_LEVELS_ID);
+                String levelName = results.getString(INDEX_LEVELS_NAME);
+
+                Level newLevel = new Level();
+                newLevel.setIdLevel(idLevel);
+                newLevel.setLevelName(levelName);
+
+                levels.add(newLevel);
+            }
+            return levels;
+
+        } catch (SQLException e) {
+            System.out.println("Error while getting levels from the database! \n");
+            e.getMessage();
             return null;
         }
     }
@@ -328,7 +454,7 @@ public class Datasource {
             deleteCourse.executeUpdate();
 
             connection.commit();
-            
+
         } catch (Exception e) {
             System.out.println("Delete course exception: " + e.getMessage());
             try {
@@ -492,6 +618,12 @@ public class Datasource {
             }
             if(deleteAllWordsFromCourse != null) {
                 deleteAllWordsFromCourse.close();
+            }
+            if(updateLevel != null) {
+                updateLevel.close();
+            }
+            if(deleteAllWordsFromLevel != null) {
+                deleteAllWordsFromLevel.close();
             }
 
             if(connection != null) {

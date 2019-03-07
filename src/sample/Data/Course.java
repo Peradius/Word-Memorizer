@@ -12,6 +12,7 @@ public class Course {
     private SimpleStringProperty courseLanguage;
     private SimpleStringProperty usersLanguage;
     private List<Word> vocabulary;
+    private List<Level> levels;
 //    private Datasource datasource; // database
 
 
@@ -62,5 +63,11 @@ public class Course {
         this.vocabulary = vocabulary;
     }
 
+    public List<Level> getLevels() {
+        return levels;
+    }
 
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
+    }
 }

@@ -80,18 +80,20 @@ public class Datasource {
             + COLUMN_WORDS_FOREIGN + " = ?, " + COLUMN_WORDS_TRANSLATED + " = ? WHERE " + COLUMN_WORDS_ID + " = ?";
     // UPDATE Words SET Foreign_Word = "?", Translated_Word = "?" WHERE ID_Word = "?"
 
-    public static final String DELETE_COURSE = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDCOURSE + " = ?;"
-            + " DELETE FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_IDCOURSE + " = ?;"
-            + " DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_COURSES_ID + " = ?";
-    //DELETE FROM Words WHERE ID_Course = 5;
-    //DELETE FROM Levels WHERE ID_Course = 5;
-    //DELETE FROM Courses WHERE ID_Course = 5;
+    public static final String DELETE_COURSE = "DELETE FROM " + TABLE_COURSES + " WHERE " + COLUMN_COURSES_ID + " = ?";
+    //DELETE FROM Courses WHERE ID_Course = "?"
 
-    public static final String DELETE_LEVEL_FROM_COURSE = "DELETE FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_ID + " = ?";
+    public static final String DELETE_LEVEL_BY_ID = "DELETE FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_ID + " = ?";
     // DELETE FROM Levels WHERE ID_Level = "?"
 
-    public static final String DELETE_WORD = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_ID + " = ?";
+    public static final String DELETE_ALL_LEVELS_FROM_COURSE = "DELETE FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_IDCOURSE + " = ?";
+    // DELETE FROM Levels WHERE ID_Course = "?"
+
+    public static final String DELETE_WORD_BY_ID = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_ID + " = ?";
     // DELETE FROM Words WHERE ID_Word = "?"
+
+    public static final String DELETE_ALL_WORDS_FROM_COURSE = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDCOURSE + " = ?";
+    // DELETE FROM Words WHERE ID_Course = "?"
 
     public static final String UPDATE_COURSE = "UPDATE " + TABLE_COURSES + " SET "
             + COLUMN_COURSES_NAME + " = ?, " + COLUMN_COURSES_COURSELANGUAGE + " = ?, " + COLUMN_COURSES_USERSLANGUAGE + " = ? WHERE "
@@ -103,15 +105,22 @@ public class Datasource {
     private PreparedStatement addNewCourse;
     private PreparedStatement addNewLevel;
     private PreparedStatement addNewWord;
+
+    private PreparedStatement queryCourses;
     private PreparedStatement queryVocabularyFromCourse;
     private PreparedStatement queryVocabularyFromLevel;
     private PreparedStatement queryLevelsFromCourse;
+
     private PreparedStatement updateWord;
     private PreparedStatement updateCourse;
+
     private PreparedStatement deleteCourse;
-    private PreparedStatement deleteLevelFromCourse;
-    private PreparedStatement deleteWord;
-    private PreparedStatement queryCourses;
+    private PreparedStatement deleteAllLevelsFromCourse;
+    private PreparedStatement deleteLevelByID;
+    private PreparedStatement deleteAllWordsFromCourse;
+    private PreparedStatement deleteWordByID;
+
+
 
 
 
@@ -138,9 +147,11 @@ public class Datasource {
             updateWord = connection.prepareStatement(UPDATE_WORD);
             updateCourse = connection.prepareStatement(UPDATE_COURSE);
             deleteCourse = connection.prepareStatement(DELETE_COURSE);
-            deleteLevelFromCourse = connection.prepareStatement(DELETE_LEVEL_FROM_COURSE);
-            deleteWord = connection.prepareStatement(DELETE_WORD);
+            deleteLevelByID = connection.prepareStatement(DELETE_LEVEL_BY_ID);
+            deleteWordByID = connection.prepareStatement(DELETE_WORD_BY_ID);
             queryCourses = connection.prepareStatement(QUERY_COURSES);
+            deleteAllLevelsFromCourse = connection.prepareStatement(DELETE_ALL_LEVELS_FROM_COURSE);
+            deleteAllWordsFromCourse = connection.prepareStatement(DELETE_ALL_WORDS_FROM_COURSE);
 
             return true;
         } catch (SQLException e) {
@@ -308,16 +319,16 @@ public class Datasource {
         try {
             connection.setAutoCommit(false);
 
+            deleteAllWordsFromCourse.setInt(1, courseID);
+            deleteAllLevelsFromCourse.setInt(1, courseID);
             deleteCourse.setInt(1, courseID);
-            deleteCourse.setInt(2, courseID);
-            deleteCourse.setInt(3, courseID);
 
-            if(deleteCourse.execute()) {
-                System.out.println("Course with ID " + courseID + " sucessfully deleted from the database!");
-                connection.commit();
-            } else {
-                throw new SQLException("Failed deleting course!");
-            }
+            deleteAllWordsFromCourse.executeUpdate();
+            deleteAllLevelsFromCourse.executeUpdate();
+            deleteCourse.executeUpdate();
+
+            connection.commit();
+            
         } catch (Exception e) {
             System.out.println("Delete course exception: " + e.getMessage());
             try {
@@ -410,9 +421,9 @@ public class Datasource {
         try {
             connection.setAutoCommit(false);
 
-            deleteWord.setInt(1, wordID);
+            deleteWordByID.setInt(1, wordID);
 
-            int affectedRows = deleteWord.executeUpdate();
+            int affectedRows = deleteWordByID.executeUpdate();
             if(affectedRows == 1) {
                 System.out.println("Word ID=" + wordID + " sucessfully deleted from the database!");
                 connection.commit();
@@ -467,14 +478,20 @@ public class Datasource {
             if(deleteCourse != null) {
                 deleteCourse.close();
             }
-            if(deleteLevelFromCourse != null) {
-                deleteLevelFromCourse.close();
+            if(deleteLevelByID != null) {
+                deleteLevelByID.close();
             }
-            if(deleteWord != null) {
-                deleteWord.close();
+            if(deleteWordByID != null) {
+                deleteWordByID.close();
             }
             if(queryCourses != null) {
                 queryCourses.close();
+            }
+            if(deleteAllLevelsFromCourse != null) {
+                deleteAllLevelsFromCourse.close();
+            }
+            if(deleteAllWordsFromCourse != null) {
+                deleteAllWordsFromCourse.close();
             }
 
             if(connection != null) {

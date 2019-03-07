@@ -215,7 +215,23 @@ public class Controller {
 
     @FXML
     public void removeCourse() {
-        System.out.println("Remove course button pressed. Function to be implemented!");
+        System.out.println("Remove course button clicked!");
+
+        if(courseListView.getSelectionModel().getSelectedItem() != null) {
+            Course selectedCourse = courseListView.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete a course");
+            alert.setHeaderText("Do you really want to delete " + selectedCourse.getCourseName() + "?\n" +
+                    "You will delete all the words, levels and the course itself!");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                int courseID = selectedCourse.getCourseID();
+                Datasource.getInstance().deleteCourseFromDB(courseID);
+                System.out.println("Course deleted!");
+                refreshCourseList();
+            }
+        }
     }
 
     @FXML

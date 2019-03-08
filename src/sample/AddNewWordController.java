@@ -13,11 +13,11 @@ public class AddNewWordController {
     @FXML
     TextField translatedWordField;
 
-    public void processResults(int courseID) {
+    public void processResults(int courseID, int levelID) {
         String foreignWord = foreignWordField.getText().trim();
         String translatedWord = translatedWordField.getText().trim();
 
-        Datasource.getInstance().addNewWordToLevel(courseID, 1, foreignWord, translatedWord);
+        Datasource.getInstance().addNewWordToLevel(courseID, levelID, foreignWord, translatedWord);
 
         System.out.println("Word " + foreignWord + " added.");
 

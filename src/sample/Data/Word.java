@@ -5,11 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Word {
     private SimpleIntegerProperty idWord;
+    private SimpleIntegerProperty idCourse;
+    private SimpleIntegerProperty idLevel;
     private SimpleStringProperty foreignWord;
     private SimpleStringProperty translatedWord;
 
     public Word() {
         this.idWord = new SimpleIntegerProperty();
+        this.idCourse = new SimpleIntegerProperty();
+        this.idLevel = new SimpleIntegerProperty();
         this.foreignWord = new SimpleStringProperty();
         this.translatedWord = new SimpleStringProperty();
     }
@@ -36,6 +40,22 @@ public class Word {
 
     public void setTranslatedWord(String translatedWord) {
         this.translatedWord.set(translatedWord);
+    }
+
+    public int getIdCourse() {
+        return idCourse.get();
+    }
+
+    public void setIdCourse(int idCourse) {
+        this.idCourse.set(idCourse);
+    }
+
+    public int getIdLevel() {
+        return idLevel.get();
+    }
+
+    public void setIdLevel(int idLevel) {
+        this.idLevel.set(idLevel);
     }
 }
 

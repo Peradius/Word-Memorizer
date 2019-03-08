@@ -3,7 +3,6 @@ package sample.Data;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Course {
@@ -11,8 +10,11 @@ public class Course {
     private SimpleStringProperty courseName;
     private SimpleStringProperty courseLanguage;
     private SimpleStringProperty usersLanguage;
+    private SimpleIntegerProperty levelsCount;
+    private SimpleIntegerProperty wordsCount;
+
+    private List<Level> levels;
     private List<Word> vocabulary;
-//    private Datasource datasource; // database
 
 
     public Course() {
@@ -20,6 +22,9 @@ public class Course {
         this.courseName = new SimpleStringProperty();
         this.courseLanguage = new SimpleStringProperty();
         this.usersLanguage = new SimpleStringProperty();
+        this.levelsCount = new SimpleIntegerProperty();
+        this.wordsCount = new SimpleIntegerProperty();
+
     }
 
     public int getCourseID() {
@@ -62,5 +67,27 @@ public class Course {
         this.vocabulary = vocabulary;
     }
 
+    public List<Level> getLevels() {
+        return levels;
+    }
 
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
+    }
+
+    public int getLevelsCount() {
+        return levelsCount.get();
+    }
+
+    public void setLevelsCount(int levelsCount) {
+        this.levelsCount.set(levelsCount);
+    }
+
+    public int getWordsCount() {
+        return wordsCount.get();
+    }
+
+    public void setWordsCount(int wordsCount) {
+        this.wordsCount.set(wordsCount);
+    }
 }

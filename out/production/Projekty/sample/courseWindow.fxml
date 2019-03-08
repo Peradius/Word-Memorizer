@@ -38,8 +38,8 @@
             <TableView fx:id="courseTableView" prefHeight="382.0" prefWidth="248.0" BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="columnID" text="ID" />
-                    <TableColumn fx:id="columnEnglish" text="English" />
-                    <TableColumn fx:id="columnPolish" text="Polish" />
+                    <TableColumn fx:id="columnForeign" text="English" />
+                    <TableColumn fx:id="columnTranslation" text="Polish" />
                 </columns>
             </TableView>
 
@@ -47,7 +47,8 @@
                 <Button text="Add word" onAction="#addWord"/>
                 <Button text="Edit word" onAction="#editWord"/>
                 <Button text="Remove word" onAction="#removeWord"/>
-                <Button text="Review" onAction="#reviewWords"/>
+                <Button text="Review all" onAction="#reviewAllWords"/>
+                <Button text="Review level" onAction="#reviewLevelWords"/>
                 <opaqueInsets>
                     <Insets top="10.0" />
                 </opaqueInsets>

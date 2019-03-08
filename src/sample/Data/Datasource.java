@@ -145,8 +145,8 @@ public class Datasource {
             connection = DriverManager.getConnection(CONNECTION_STRING);
 
             addNewCourse = connection.prepareStatement(ADD_NEW_COURSE, Statement.RETURN_GENERATED_KEYS);
-            addNewLevel = connection.prepareStatement(ADD_NEW_LEVEL, Statement.RETURN_GENERATED_KEYS);
-            addNewWord = connection.prepareStatement(ADD_NEW_WORD, Statement.RETURN_GENERATED_KEYS);
+            addNewLevel = connection.prepareStatement(ADD_NEW_LEVEL);
+            addNewWord = connection.prepareStatement(ADD_NEW_WORD);
             queryVocabularyFromCourse = connection.prepareStatement(QUERY_VOCAB_FROM_COURSE);
             queryVocabularyFromLevel = connection.prepareStatement(QUERY_VOCAB_FROM_LEVEL);
             queryLevelsFromCourse = connection.prepareStatement(QUERY_LEVELS_FROM_COURSE);
@@ -350,32 +350,31 @@ public class Datasource {
     }
 
     public List<Word> getVocabularyFromLevel(int levelID) {
-//        try {
-//            List<Word> vocabulary = new LinkedList<>();
-//            queryVocabularyFromLevel.setInt(1, levelID);
-//            ResultSet results = queryLevelsFromCourse.executeQuery();
-//
-//            while (results.next()) {
-//                int idWord = results.getInt(INDEX_WORDS_ID);
-//                String foreignWord = results.getString(INDEX_WORDS_FOREIGN);
-//                String translatedWord = results.getString(INDEX_WORDS_TRANSLATED);
-//
-//                Word newWord = new Word();
-//                newWord.setIdWord(idWord);
-//                newWord.setForeignWord(foreignWord);
-//                newWord.setTranslatedWord(translatedWord);
-//
-//                vocabulary.add(newWord);
-//            }
-//
-//            return vocabulary;
-//
-//        } catch (SQLException e) {
-//            System.out.println("Error while getting vocabulary from the database! \n");
-//            e.printStackTrace();
-//            return null;
-//        }
-        return null;
+        try {
+            List<Word> vocabulary = new LinkedList<>();
+            queryVocabularyFromLevel.setInt(1, levelID);
+            ResultSet results = queryVocabularyFromLevel.executeQuery();
+
+            while (results.next()) {
+                int idWord = results.getInt(INDEX_WORDS_ID);
+                String foreignWord = results.getString(INDEX_WORDS_FOREIGN);
+                String translatedWord = results.getString(INDEX_WORDS_TRANSLATED);
+
+                Word newWord = new Word();
+                newWord.setIdWord(idWord);
+                newWord.setForeignWord(foreignWord);
+                newWord.setTranslatedWord(translatedWord);
+
+                vocabulary.add(newWord);
+            }
+
+            return vocabulary;
+
+        } catch (SQLException e) {
+            System.out.println("Error while getting vocabulary from the level! \n");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void addNewCourse(String courseName, String teachingLanguage, String usersLanguage) {
@@ -390,6 +389,13 @@ public class Datasource {
             if(affectedRows == 1) {
                 System.out.println("Course " + courseName + " sucessfully added to the database!");
                 connection.commit();
+                try{
+                    ResultSet generatedKeys = addNewCourse.getGeneratedKeys();
+                    int newCourseID = generatedKeys.getInt(1);
+                    addNewLevelToCourse(newCourseID, "Course Overall");
+                } catch(SQLException e) {
+                    System.out.println("Failed obtaining the course ID");
+                }
             } else {
                 throw new SQLException("Failed adding new course!");
             }

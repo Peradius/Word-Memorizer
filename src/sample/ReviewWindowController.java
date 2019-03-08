@@ -12,18 +12,16 @@ import java.util.Optional;
 
 public class ReviewWindowController {
 
-    // ID from which the words will be taken (CourseID for now, but also LevelID for the future)
-    private int courseID;
+    // ID from which the words will be taken
+    private int sessionID;
+    private boolean reviewCourse; // true if we review whole course, false if review only a level
 
-    public int getCourseID() {
-        return courseID;
+    public void setSessionID(int sessionID) {
+        this.sessionID = sessionID;
     }
-
-    public void setCourseID(int courseID) {
-        this.courseID = courseID;
+    public void setReviewCourse(boolean reviewCourse) {
+        this.reviewCourse = reviewCourse;
     }
-
-
 
     @FXML
     DialogPane reviewWindowPane;
@@ -71,7 +69,13 @@ public class ReviewWindowController {
     private int reviewSessionSize;
 
     public void processReview() {
-        vocabularyToReview = Datasource.getInstance().getVocabularyFromCourse(courseID);
+
+        if(reviewCourse) {
+            vocabularyToReview = Datasource.getInstance().getVocabularyFromCourse(sessionID);
+        } else {
+            vocabularyToReview = Datasource.getInstance().getVocabularyFromLevel(sessionID);
+        }
+
         reviewSessionSize = vocabularyToReview.size();
         totalWordsLabel.setText("" + reviewSessionSize);
         reviewSingleWord();

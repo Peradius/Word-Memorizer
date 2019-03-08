@@ -6,15 +6,18 @@ Lista funkcji, które trzeba zaimplementować w przyszłości:
 
 FIX!
 
-Podczas klikania poziomu, nie wyświetlają się słówka z tego poziomu!
-
 Nie działa edit level
 
 Zaimplementować exit course
 
 Zablokować możliwość wczytania dwóch takich samych kursów
 
-Przy wyjściu Xem, nie zapisują się poziomy, ale zapisują się słowa
-// Edit: wyglada na to, ze nie nie odswieza sie lista, poniewaz po dodaniu nowego poziomu
-// pojawiaja sie poziomy. CHyba brakuje refreshList();
+po załadowaniu kursu, selectedItem = Course Overall
+Do course overall zablokować możliwość dodawania doawac slowek
+Course overall wyswietla informacje na temat kursu (ilosc slowek, wszystkie slowka)
+Course overall nie mozna edytowac, usuwac, ani dodawac do niego slowek
+Zeby dodac slowko, trzeba wybrac poziom
+
+Po dodaniu slowka, pokazuja sie wszystkie slowka z danego poziomy. Docelowo ma byc ten poziom do ktorego dodalismy slowko
+Review wszystkich slowek i review slowek z poziomu
 

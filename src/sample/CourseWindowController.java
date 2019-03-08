@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +19,8 @@ import java.util.Optional;
 
 public class CourseWindowController {
     private List<Level> levelList;
+    private List<Word> courseVocabulary;
+    private List<Word> levelVocabulary;
     
     @FXML
     private BorderPane courseBorderPane;
@@ -28,16 +29,16 @@ public class CourseWindowController {
     private ListView<Level> levelListView;
 
     @FXML
-    private TableView courseTableView;
+    private TableView<Word> courseTableView;
 
     @FXML
     private TableColumn<Word, Integer> columnID;
 
     @FXML
-    private TableColumn<Word, String> columnEnglish;
+    private TableColumn<Word, String> columnForeign;
 
     @FXML
-    private TableColumn<Word, String> columnPolish;
+    private TableColumn<Word, String> columnTranslation;
 
     private Course currentCourse;
     private int courseID;
@@ -160,8 +161,10 @@ public class CourseWindowController {
         Optional<ButtonType> result = dialog.showAndWait();
 
         if(result.isPresent() && result.get() == ButtonType.OK) {
+            int levelID = levelListView.getSelectionModel().getSelectedItem().getIdLevel();
+
             AddNewWordController controller = fxmlLoader.getController();
-            controller.processResults(courseID);
+            controller.processResults(courseID, levelID);
             courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromCourse(courseID));
             courseTableView.refresh();
         }
@@ -189,8 +192,8 @@ public class CourseWindowController {
     }
 
     @FXML
-    public void reviewWords() {
-        System.out.println("Review button clicked!");
+    public void reviewAllWords() {
+        System.out.println("Review all words button clicked!");
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("reviewWindow.fxml"));
@@ -206,10 +209,36 @@ public class CourseWindowController {
         }
 
         ReviewWindowController controller = fxmlLoader.getController();
-        controller.setCourseID(courseID);
+        controller.setReviewCourse(true);
+        controller.setSessionID(courseID);
         controller.processReview();
-
     }
+
+    @FXML
+    public void reviewLevelWords() {
+        System.out.println("Review level button clicked!");
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("reviewWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setTitle("Review Session");
+            stage.setScene(scene);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"reviewWindow\"");
+            return;
+        }
+
+        ReviewWindowController controller = fxmlLoader.getController();
+        Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
+
+        controller.setReviewCourse(false);
+        controller.setSessionID(selectedLevel.getIdLevel());
+        controller.processReview();
+    }
+
 
     @FXML
     public void editWord() {
@@ -247,38 +276,50 @@ public class CourseWindowController {
     }
     
     public void initialLoad() {
-        List<Word> vocab = Datasource.getInstance().getVocabularyFromCourse(courseID);
-        currentCourse.setVocabulary(vocab);
+        courseVocabulary = Datasource.getInstance().getVocabularyFromCourse(courseID);
+        currentCourse.setVocabulary(courseVocabulary);
 
         columnID.setCellValueFactory(new PropertyValueFactory<>("idWord"));
-        columnEnglish.setCellValueFactory(new PropertyValueFactory<>("foreignWord"));
-        columnPolish.setCellValueFactory(new PropertyValueFactory<>("translatedWord"));
+        columnForeign.setCellValueFactory(new PropertyValueFactory<>("foreignWord"));
+        columnTranslation.setCellValueFactory(new PropertyValueFactory<>("translatedWord"));
 
         courseTableView.getItems().setAll(currentCourse.getVocabulary());
+
+        refreshLevelList();
 
     }
     
     
     
     public void initialize() {
-        levelListView.getSelectionModel().selectedItemProperty().addListener(e -> new ChangeListener() {
+
+        refreshLevelList();
+
+        levelListView.setCellFactory(e -> new ListCell<Level>() {
             @Override
-            public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if(t1 != null) {
-                    Level selectedLevel = (Level) t1;
-                    System.out.println(selectedLevel.getLevelName() + " selected.");
-                } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
+            protected void updateItem(Level level, boolean empty) {
+                super.updateItem(level, empty);
+
+                if(empty || level == null) {
+                    setText("");
+                } else {
+                    setText(level.getLevelName());
+                }
             }
         });
 
-        courseTableView.getSelectionModel().selectedItemProperty().addListener(e -> new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if(t1 != null) {
-                    Word selectedWord = (Word) t1;
-                    System.out.println(selectedWord.getForeignWord() + " selected.");
-                } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
-            }
+
+        levelListView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Level>) (observableValue, o, selectedLevel) -> {
+            if(selectedLevel != null) {
+                System.out.println(selectedLevel.getLevelName() + " from " + currentCourse.getCourseName() + " selected!");
+                courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(selectedLevel.getIdLevel()));
+            } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
+        });
+
+        courseTableView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Word>) (observableValue, o, selectedWord) -> {
+            if(selectedWord != null) {
+                System.out.println(selectedWord.getForeignWord() + " selected.");
+            } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
         });
     }
 

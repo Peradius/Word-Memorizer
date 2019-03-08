@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Controller {
-    private List<Course> coursesList;
 
     @FXML
     BorderPane mainBorderPane;
@@ -24,6 +22,7 @@ public class Controller {
     @FXML
     private ListView<Course> courseListView;
 
+    private List<Course> coursesList;
     private Course selectedCourse;
     private int selectedCourseID;
 
@@ -141,42 +140,31 @@ public class Controller {
     }
 
     public void initialize() {
-
         refreshCourseList();
 
         courseListView.setCellFactory(e -> new ListCell<Course>() {
-                    @Override
-                    protected void updateItem(Course course, boolean empty) {
-                        super.updateItem(course, empty);
-
-                        if(empty || course == null) {
-                            setText("");
-                        } else {
-                            setText(course.getCourseName());
-                        }
-                    }
-                });
-
-        courseListView.getSelectionModel().selectedItemProperty().addListener(e -> new ChangeListener() {
             @Override
-            public void changed(ObservableValue observableValue, Object o, Object t1) {
-                if(t1 != null) {
-                    Course selectedCourse = (Course) t1;
-                    System.out.println(selectedCourse.getCourseName() + " selected.");
-                } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
+            protected void updateItem(Course course, boolean empty) {
+                super.updateItem(course, empty);
+
+                if(empty || course == null) {
+                    setText("");
+                } else {
+                    setText(course.getCourseName());
+                }
             }
         });
 
+        courseListView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Course>) (observableValue, o, t1) -> {
+            if(t1 != null) {
+                selectedCourse = t1;
+                System.out.println(selectedCourse.getCourseName() + " selected.");
+            } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
+        });
     }
 
     public void refreshCourseList() {
         coursesList = Datasource.getInstance().getCourses();
         courseListView.getItems().setAll(coursesList);
     }
-
-
-
-
-
-
 }

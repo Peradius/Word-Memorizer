@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import sample.Data.Course;
 import sample.Data.Datasource;
@@ -39,6 +39,8 @@ public class CourseWindowController {
 
     @FXML
     private TableColumn<Word, String> columnTranslation;
+
+    private boolean courseOverviewDisplayed = false;
 
     private Course currentCourse;
     private int courseID;
@@ -100,7 +102,7 @@ public class CourseWindowController {
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
             EditLevelController controller = fxmlLoader.getController();
-            Level selectedLevel = (Level) levelListView.getSelectionModel().getSelectedItem();
+            Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
             controller.populateFields(selectedLevel);
 
             Optional<ButtonType> result = dialog.showAndWait();
@@ -288,11 +290,8 @@ public class CourseWindowController {
         refreshLevelList();
 
     }
-    
-    
-    
-    public void initialize() {
 
+    public void initialize() {
         refreshLevelList();
 
         levelListView.setCellFactory(e -> new ListCell<Level>() {

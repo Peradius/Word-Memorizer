@@ -6,7 +6,9 @@ Lista funkcji, które trzeba zaimplementować w przyszłości:
 
 FIX!
 
-Nie działa edit level
+
+!! ZAIMPLEMENTOWAĆ COURSE OVERVIEW !!
+
 
 Zaimplementować exit course
 

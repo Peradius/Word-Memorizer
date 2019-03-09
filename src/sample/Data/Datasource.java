@@ -76,8 +76,9 @@ public class Datasource {
     public static final String QUERY_LEVELS_FROM_COURSE = "SELECT * FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_IDCOURSE + " = ?";
     // SELECT * FROM Levels WHERE ID_Course = ?;
 
-    public static final String UPDATE_LEVEL = "UPDATE " + TABLE_LEVELS + " SET " + COLUMN_LEVELS_NAME + " = ?";
-    // UPDATE Levels SET Level_Name = ?
+    public static final String UPDATE_LEVEL = "UPDATE " + TABLE_LEVELS + " SET " + COLUMN_LEVELS_NAME + " = ?"
+            + " WHERE " + COLUMN_LEVELS_ID + " = ?";
+    // UPDATE Levels SET Level_Name = ? WHERE ID_Level ?
 
     public static final String UPDATE_WORD = "UPDATE " + TABLE_WORDS + " SET "
             + COLUMN_WORDS_FOREIGN + " = ?, " + COLUMN_WORDS_TRANSLATED + " = ? WHERE " + COLUMN_WORDS_ID + " = ?";
@@ -245,11 +246,18 @@ public class Datasource {
         try {
             connection.setAutoCommit(false);
 
+            updateLevel.setString(1, newLevelName);
+            updateLevel.setInt(2, levelID);
 
-
-            updateCourse.executeUpdate();
+            int affectedRows = updateLevel.executeUpdate();
+            if(affectedRows == 1) {
+                System.out.println("Level " + newLevelName + " successfully updated!");
+                connection.commit();
+            } else {
+                throw new SQLException("Failed updatinglevel!");
+            }
         } catch (Exception e) {
-            System.out.println("Update course exception: " + e.getMessage());
+            System.out.println("Update level exception: " + e.getMessage());
             try {
                 System.out.println("Performing a rollback!");
                 connection.rollback();
@@ -392,7 +400,7 @@ public class Datasource {
                 try{
                     ResultSet generatedKeys = addNewCourse.getGeneratedKeys();
                     int newCourseID = generatedKeys.getInt(1);
-                    addNewLevelToCourse(newCourseID, "Course Overall");
+                    addNewLevelToCourse(newCourseID, "Level 1");
                 } catch(SQLException e) {
                     System.out.println("Failed obtaining the course ID");
                 }

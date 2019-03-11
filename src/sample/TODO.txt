@@ -1,10 +1,5 @@
-Lista funkcji, które trzeba zaimplementować w przyszłości:
-2. Masowe dodawanie słowek oraz eksport plików
-3. Czasowe odświeżanie słówek
-4. Eksport bazy danych słówek do pliku
+=== Przed wydaniem nowej wersji ===
 
-
-Przed wydaniem nowej wersji:
 1. Zaimplementować wszystkie MenuItem:
     a. File -> Settings
     b. File -> Exit
@@ -37,8 +32,15 @@ Przed wydaniem nowej wersji:
     nie powinny mieć znaczenia
 14. Dodać exit button do review session
 
-!! ZAIMPLEMENTOWAĆ COURSE OVERVIEW !!
+=== W kolejnych wersjach ===
 
-
-Course overall wyswietla informacje na temat kursu (ilosc slowek, wszystkie slowka)
-
+1. Masowe dodawanie słowek w programie i wczytywanie ich z pliku
+2. Czasowe odświeżanie słówek
+3. Eksport słówek do pliku
+4. LEPSZE, ŁADNIEJSZE GUI
+5. Wersje językowe
+6. Profile użytkowników
+7. Punkty za odświeżanie
+8. Nauka nowych słówek (coś ala Memrise) i możliwość usunięcia ich z pamięci
+9. Możliwość wgrania audio do słówek
+10. Możliwość wgrania obrazków jako memy

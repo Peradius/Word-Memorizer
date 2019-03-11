@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<DialogPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.GUI.Controllers.ReviewWindowController"
+            fx:id="reviewWindowPane">
+    <headerText>
+        Review your words!
+    </headerText>
+   <content>
+      <GridPane>
+          <Label text="English" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+          <TextField fx:id="foreignWordField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+          <Label text="Polish" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+          <TextField fx:id="translatedWordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+          <Button onAction="#nextButton"  text="Next" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+          <Label fx:id="resultLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+          <Separator prefWidth="200.0" GridPane.rowIndex="3" />
+
+          <Label text="Total words to review: " GridPane.rowIndex="4" />
+          <Label fx:id="totalWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+          <Label text="Good: " GridPane.rowIndex="5" />
+          <Label fx:id="goodWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+          <Label text="Wrong: " GridPane.rowIndex="6" />
+          <Label fx:id="wrongWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      </GridPane>
+   </content>
+</DialogPane>

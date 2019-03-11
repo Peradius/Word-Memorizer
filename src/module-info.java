@@ -5,4 +5,7 @@ module Projekty {
 
     opens sample;
     opens sample.Data;
+    opens sample.GUI.Controllers;
+
+    exports sample.GUI.Controllers to javafx.fxml;
 }

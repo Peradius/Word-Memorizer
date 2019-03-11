@@ -25,7 +25,6 @@
 7. AddLevel nie moze byc puste
 8. EditLevel nie moze byc puste
 9. W review można klikać Enter
-10. Przeorganizować pliki w odpowiednie miejsca
 11. Usunąć powtarzający się kod
 12. Zrobić porządek w kodzie
 13. Podczas review białe znaki na początku i końcu, i wielkość liter

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="courseBorderPane"
+            fx:controller="sample.GUI.Controllers.CourseWindowController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <top>
+        <MenuBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu text="Course">
+                    <items>
+                        <MenuItem text="Show overview" onAction="#showOverview"/>
+                        <MenuItem text="Exit" onAction="#exitCourse"/>
+                    </items>
+                </Menu>
+
+                <Menu text="Level">
+                    <items>
+                        <MenuItem text="Add level" onAction="#addLevel"/>
+                        <MenuItem text="Edit level" onAction="#editLevel"/>
+                        <MenuItem text="Remove level" onAction="#removeLevel"/>
+                    </items>
+                </Menu>
+
+                <Menu text="Words">
+                    <items>
+                        <MenuItem text="Add word" onAction="#addWord"/>
+                        <MenuItem text="Bulk add words" onAction="#bulkAddWords"/>
+                        <MenuItem text="Edit word" onAction="#editWord"/>
+                        <MenuItem text="Remove word" onAction="#removeWord"/>
+                    </items>
+                </Menu>
+
+                <Menu text="Review">
+                    <items>
+                        <MenuItem text="Review level" onAction="#reviewLevelWords"/>
+                        <MenuItem text="Review course" onAction="#reviewAllWords"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox>
+            <ListView fx:id="levelListView">
+            </ListView>
+        </VBox>
+    </left>
+
+    <center>
+            <TableView fx:id="courseTableView" prefHeight="382.0" prefWidth="248.0" BorderPane.alignment="CENTER">
+                <columns>
+                    <TableColumn fx:id="columnID" text="Word ID" />
+                    <TableColumn fx:id="columnForeign" text="Foreign" />
+                    <TableColumn fx:id="columnTranslation" text="Translation" />
+                </columns>
+            </TableView>
+    </center>
+
+    <bottom>
+        <Label text="Created by Michał Wszołek. Version: 1.0.0" />
+    </bottom>
+
+</BorderPane>
+
+

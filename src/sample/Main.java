@@ -8,19 +8,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Data.Datasource;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("mainWindow.fxml"));
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainWindows.fxml"));
-//        Parent root = fxmlLoader.load();
-//        Controller controller = fxmlLoader.getController();
-
-
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/Windows/mainWindow.fxml"));
 
         primaryStage.setTitle("Word Memorizer");
         primaryStage.setScene(new Scene(root, 800, 600));

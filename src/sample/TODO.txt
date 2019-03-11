@@ -4,22 +4,41 @@ Lista funkcji, które trzeba zaimplementować w przyszłości:
 4. Eksport bazy danych słówek do pliku
 
 
-FIX!
-
+Przed wydaniem nowej wersji:
+1. Zaimplementować wszystkie MenuItem:
+    a. File -> Settings
+    b. File -> Exit
+    c. Course -> Level : zamienić na Overview
+    d. W głównym oknie usunąć Level
+    e. Help -> About
+2. Zaimplementować MenuBar w courseWindow.fxml i kontrolerze
+    a. File -> Settings
+    b. File -> Exit (wychodzi najpierw z kursu, potem z programu)
+    c. Level -> Add level
+    d. Level -> Edit level
+    e. Level -> Remove level
+    f. Word -> Add word
+    g. Word -> Edit word
+    h. Word -> Remove word
+    i. Review -> Review Level
+    j. Review -> Review Course
+3. Zaimplementować Course Overview i zbindować go do okna.
+   Po kliknięciu kursu, odświeżają się odpowiednie informacje
+4. AddCourse : żadne pole nie może być puste
+5. EditCourse : żadne pole nie może być puste
+6. Usunąć buttony z dołu w courseWindow
+7. AddLevel nie moze byc puste
+8. EditLevel nie moze byc puste
+9. W review można klikać Enter
+10. Przeorganizować pliki w odpowiednie miejsca
+11. Usunąć powtarzający się kod
+12. Zrobić porządek w kodzie
+13. Podczas review białe znaki na początku i końcu, i wielkość liter
+    nie powinny mieć znaczenia
+14. Dodać exit button do review session
 
 !! ZAIMPLEMENTOWAĆ COURSE OVERVIEW !!
 
 
-Zaimplementować exit course
-
-Zablokować możliwość wczytania dwóch takich samych kursów
-
-po załadowaniu kursu, selectedItem = Course Overall
-Do course overall zablokować możliwość dodawania doawac slowek
 Course overall wyswietla informacje na temat kursu (ilosc slowek, wszystkie slowka)
-Course overall nie mozna edytowac, usuwac, ani dodawac do niego slowek
-Zeby dodac slowko, trzeba wybrac poziom
-
-Po dodaniu slowka, pokazuja sie wszystkie slowka z danego poziomy. Docelowo ma byc ten poziom do ktorego dodalismy slowko
-Review wszystkich slowek i review slowek z poziomu
 

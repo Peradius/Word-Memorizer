@@ -28,7 +28,7 @@
                 <Button text="Add level" onAction="#addLevel"/>
                 <Button text="Edit level" onAction="#editLevel"/>
                 <Button text="Remove level" onAction="#removeLevel"/>
-                <Button text="Exit course" onAction="#exitCourse"/>
+                <Button fx:id="closeButton" text="Exit course" onAction="#exitCourse"/>
             </HBox>
         </VBox>
     </left>

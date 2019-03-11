@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.Data.Course;
 import sample.Data.Datasource;
@@ -21,6 +22,18 @@ public class Controller {
 
     @FXML
     private ListView<Course> courseListView;
+
+    @FXML
+    MenuItem addCourseItem;
+
+    @FXML
+    MenuItem editCourseItem;
+
+    @FXML
+    MenuItem removeCourseItem;
+
+    @FXML
+    MenuItem loadCourseItem;
 
     private List<Course> coursesList;
     private Course selectedCourse;
@@ -124,6 +137,8 @@ public class Controller {
                 Stage stage = new Stage();
                 stage.setTitle(selectedCourse.getCourseName());
                 stage.setScene(scene);
+                stage.initOwner(mainBorderPane.getScene().getWindow());
+                stage.initModality(Modality.APPLICATION_MODAL);
                 stage.show();
             } catch(IOException e) {
                 System.out.println("Failed loading \"course Window\"");
@@ -140,6 +155,12 @@ public class Controller {
     }
 
     public void initialize() {
+        if(selectedCourse == null) {
+            editCourseItem.setDisable(true);
+            removeCourseItem.setDisable(true);
+            loadCourseItem.setDisable(true);
+        }
+
         refreshCourseList();
 
         courseListView.setCellFactory(e -> new ListCell<Course>() {
@@ -159,6 +180,9 @@ public class Controller {
             if(t1 != null) {
                 selectedCourse = t1;
                 System.out.println(selectedCourse.getCourseName() + " selected.");
+                editCourseItem.setDisable(false);
+                removeCourseItem.setDisable(false);
+                loadCourseItem.setDisable(false);
             } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
         });
     }

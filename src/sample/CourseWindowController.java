@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.Data.Course;
 import sample.Data.Datasource;
@@ -30,6 +31,9 @@ public class CourseWindowController {
 
     @FXML
     private TableView<Word> courseTableView;
+
+    @FXML
+    private Button closeButton;
 
     @FXML
     private TableColumn<Word, Integer> columnID;
@@ -139,7 +143,11 @@ public class CourseWindowController {
 
     @FXML
     public void exitCourse() {
-        System.out.println("Exit course button clicked. To be implemented");
+        System.out.println("Exit course button clicked.");
+
+        Stage stage = (Stage)closeButton.getScene().getWindow();
+        stage.close();
+
     }
 
     @FXML
@@ -163,11 +171,13 @@ public class CourseWindowController {
         Optional<ButtonType> result = dialog.showAndWait();
 
         if(result.isPresent() && result.get() == ButtonType.OK) {
-            int levelID = levelListView.getSelectionModel().getSelectedItem().getIdLevel();
+            Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
+            int levelID = selectedLevel.getIdLevel();
 
             AddNewWordController controller = fxmlLoader.getController();
             controller.processResults(courseID, levelID);
-            courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromCourse(courseID));
+            courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(levelID));
+            levelListView.getSelectionModel().select(selectedLevel);
             courseTableView.refresh();
         }
     }
@@ -204,6 +214,8 @@ public class CourseWindowController {
             Stage stage = new Stage();
             stage.setTitle("Review Session");
             stage.setScene(scene);
+            stage.initOwner(courseBorderPane.getScene().getWindow());
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch(IOException e) {
             System.out.println("Failed loading \"reviewWindow\"");
@@ -288,12 +300,12 @@ public class CourseWindowController {
         courseTableView.getItems().setAll(currentCourse.getVocabulary());
 
         refreshLevelList();
+        Level firstLevel = getFirstLevel();
+        levelListView.getSelectionModel().select(firstLevel);
 
     }
 
     public void initialize() {
-        refreshLevelList();
-
         levelListView.setCellFactory(e -> new ListCell<Level>() {
             @Override
             protected void updateItem(Level level, boolean empty) {
@@ -325,5 +337,16 @@ public class CourseWindowController {
     public void refreshLevelList() {
         levelList = Datasource.getInstance().getLevelsFromCourse(courseID);
         levelListView.getItems().setAll(levelList);
+    }
+
+    public Level getFirstLevel() {
+        Level firstLevel = levelList.get(0);
+
+        for(Level levels: levelList) {
+            if( levels.getIdLevel() < firstLevel.getIdLevel() ) {
+                firstLevel = levels;
+            }
+        }
+        return firstLevel;
     }
 }

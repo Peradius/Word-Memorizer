@@ -31,13 +31,14 @@
                       <MenuItem text="Remove course" fx:id="removeCourseItem" onAction="#removeCourse"/>
                       <MenuItem text="Load course" fx:id="loadCourseItem" onAction="#loadCourse"/>
                       <SeparatorMenuItem />
-                      <MenuItem text="Course overview" onAction="#showOverview" />
+                      <MenuItem text="Course overview" fx:id="showOverviewItem" onAction="#showOverview" />
                   </items>
               </Menu>
 
               <Menu text="Help">
                   <items>
-                      <MenuItem text="About" onAction="#showHelp" />
+                      <MenuItem text="About" onAction="#showAbout" />
+                      <MenuItem text="User's Manual" onAction="#showUsersManual" />
                   </items>
               </Menu>
           </menus>
@@ -58,9 +59,5 @@
             <Label text="This section is to be implemented" />
         </VBox>
     </center>
-
-    <bottom>
-            <Label text="Created by Michał Wszołek. Version: 1.0.0" />
-    </bottom>
 
 </BorderPane>

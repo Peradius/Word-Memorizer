@@ -1,5 +1,6 @@
 package sample.GUI.Controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,16 +25,19 @@ public class Controller {
     private ListView<Course> courseListView;
 
     @FXML
-    MenuItem addCourseItem;
+    private MenuItem addCourseItem;
 
     @FXML
-    MenuItem editCourseItem;
+    private MenuItem editCourseItem;
 
     @FXML
-    MenuItem removeCourseItem;
+    private MenuItem removeCourseItem;
 
     @FXML
-    MenuItem loadCourseItem;
+    private MenuItem loadCourseItem;
+
+    @FXML
+    private MenuItem showOverviewItem;
 
 
     private Course selectedCourse;
@@ -43,6 +47,7 @@ public class Controller {
             editCourseItem.setDisable(true);
             removeCourseItem.setDisable(true);
             loadCourseItem.setDisable(true);
+            showOverviewItem.setDisable(true);
         }
 
         refreshCourseList();
@@ -64,9 +69,11 @@ public class Controller {
             if(t1 != null) {
                 selectedCourse = t1;
                 System.out.println(selectedCourse.getCourseName() + " selected.");
+
                 editCourseItem.setDisable(false);
                 removeCourseItem.setDisable(false);
                 loadCourseItem.setDisable(false);
+                showOverviewItem.setDisable(false);
             } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
         });
     }
@@ -164,7 +171,6 @@ public class Controller {
 
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseWindow.fxml"));
-            System.out.println("LOCATION: " + fxmlLoader.getLocation());
             try {
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 Stage stage = new Stage();
@@ -189,22 +195,85 @@ public class Controller {
 
     @FXML
     public void showSettings() {
-        System.out.println("Show Settings to be implemented!");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/settingsWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"settings Window\"");
+            System.out.println(e.getMessage());
+            return;
+        }
     }
 
     @FXML
     public void showOverview() {
-        System.out.println("Show Overview to be implemented!");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseOverviewWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"Course Overview Window\"");
+            System.out.println(e.getMessage());
+            return;
+        }
+        Course selectedCourse = courseListView.getSelectionModel().getSelectedItem();
+        CourseOverviewController controller = fxmlLoader.getController();
+        controller.populateFields(selectedCourse);
     }
 
     @FXML
-    public void showHelp() {
-        System.out.println("Show Help to be implemented!");
+    public void showAbout() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/aboutWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"About Window\"");
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    @FXML
+    public void showUsersManual() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/usersManualWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"Users Manual Window\"");
+            System.out.println(e.getMessage());
+            return;
+        }
     }
 
     @FXML
     public void exitApp() {
-        System.out.println("Exit App to be implemented!");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit application");
+        alert.setHeaderText("Do you really want to exit the application?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            Platform.exit();
+        }
     }
 
 

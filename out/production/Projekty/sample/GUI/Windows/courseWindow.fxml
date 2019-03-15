@@ -16,10 +16,17 @@
     <top>
         <MenuBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <menus>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="Exit Course" onAction="#exitCourse"/>
+                        <MenuItem text="Exit Application" onAction="#exitApplication"/>
+                    </items>
+                </Menu>
+
                 <Menu text="Course">
                     <items>
                         <MenuItem text="Show overview" onAction="#showOverview"/>
-                        <MenuItem text="Exit" onAction="#exitCourse"/>
+                        <MenuItem text="Show vocabulary" onAction="#showVocabulary"/>
                     </items>
                 </Menu>
 
@@ -65,11 +72,6 @@
                 </columns>
             </TableView>
     </center>
-
-    <bottom>
-        <Label text="Created by Michał Wszołek. Version: 1.0.0" />
-    </bottom>
-
 </BorderPane>
 
 

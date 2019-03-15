@@ -1,5 +1,6 @@
 package sample.GUI.Controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +28,6 @@ public class CourseWindowController {
 
     @FXML
     private TableView<Word> courseTableView;
-
-    @FXML
-    private Button closeButton;
 
     @FXML
     private TableColumn<Word, Integer> columnID;
@@ -89,12 +87,21 @@ public class CourseWindowController {
     }
 
     @FXML
+    public void showVocabulary() {
+        System.out.println("Show Vocabulary to be implemented!");
+    }
+
+    @FXML
     public void exitCourse() {
         System.out.println("Exit course button clicked.");
 
-        Stage stage = (Stage)closeButton.getScene().getWindow();
+        Stage stage = (Stage)courseBorderPane.getScene().getWindow();
         stage.close();
+    }
 
+    @FXML
+    public void exitApplication() {
+        Platform.exit();
     }
 
     @FXML
@@ -215,7 +222,25 @@ public class CourseWindowController {
 
     @FXML
     public void bulkAddWords() {
-        System.out.println("Bulk add words to be implemented!");
+        Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
+        if(selectedLevel != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/bulkAddWordsWindow.fxml"));
+            try {
+                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.show();
+            } catch(IOException e) {
+                System.out.println("Failed loading \"Bulk Add Words Window\"");
+                System.out.println(e.getMessage());
+                return;
+            }
+            BulkAddWordsController controller = fxmlLoader.getController();
+            controller.setCourseID(courseID);
+            controller.setLevelID(selectedLevel.getIdLevel());
+        }
     }
 
     @FXML
@@ -245,10 +270,11 @@ public class CourseWindowController {
             Optional<ButtonType> result = dialog.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
                 int wordID = selectedWord.getIdWord();
                 controller.updateWord(wordID);
 
-                courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromCourse(courseID));
+                courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(selectedLevel.getIdLevel()));
             }
         }
     }

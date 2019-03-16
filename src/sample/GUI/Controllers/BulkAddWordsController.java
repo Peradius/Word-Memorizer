@@ -1,6 +1,9 @@
 package sample.GUI.Controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -35,6 +38,16 @@ public class BulkAddWordsController {
     @FXML
     private ToggleGroup insertVocabMethod;
 
+    @FXML
+    private TextArea textAreaField;
+
+    @FXML
+    private Button chooseFileButton;
+
+    @FXML
+    public void initialize() {
+        insertTextSelected();
+    }
     @FXML
     public void chooseFile() {
         FileChooser fileChooser = new FileChooser();
@@ -80,9 +93,26 @@ public class BulkAddWordsController {
     @FXML
     public void submitAction() {
         if(insertVocabMethod.getSelectedToggle() == insertVocabMethod.getToggles().get(INSERT_TEXT_TOGGLE_ID)) {
-            // Insert text method
-            System.out.println("TO BE IMPLEMENTED!");
+            // Initial list clear
+            importedVocab.clear();
+            String[] lines = textAreaField.getText().split("\\r?\\n");
+            int length = lines.length;
+            System.out.println("DEBUG: THERE'S " + length + " WORDS IN THE TEXTAREA");
+            for (int i = 0; i < length; i++) {
+                String[] singleWord = lines[i].split(",");
+                Word newWord = new Word();
+                newWord.setForeignWord(singleWord[0]);
+                newWord.setTranslatedWord(singleWord[1]);
+                newWord.setIdCourse(courseID);
+                newWord.setIdLevel(levelID);
 
+                importedVocab.add(newWord);
+            }
+
+            for(Word word : importedVocab) {
+                Datasource.getInstance().addNewWordToLevel(courseID, levelID, word.getForeignWord(), word.getTranslatedWord());
+            }
+            closeWindow();
         } else if(insertVocabMethod.getSelectedToggle() == insertVocabMethod.getToggles().get(CHOOSE_FILE_TOGGLE_ID)) {
             // Choose file method
             for(Word word : importedVocab) {
@@ -95,6 +125,20 @@ public class BulkAddWordsController {
             System.out.println("Insert Vocab Method Error!");
             closeWindow();
         }
+    }
+
+    @FXML
+    public void insertTextSelected() {
+        chooseFileButton.setDisable(true);
+        textAreaField.setStyle("text-area-background: white;");
+        textAreaField.setDisable(false);
+    }
+
+    @FXML
+    public void chooseFileSelected() {
+        textAreaField.setDisable(true);
+        textAreaField.setStyle("text-area-background: gray;");
+        chooseFileButton.setDisable(false);
     }
 
     @FXML

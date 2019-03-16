@@ -38,7 +38,7 @@
       <Label GridPane.columnSpan="2" GridPane.rowIndex="1"
              text="Please choose how you wish to import the vocabulary. You can type the words, or you can choose a file."/>
 
-       <RadioButton mnemonicParsing="false" selected="true" text="Insert text" GridPane.rowIndex="2">
+       <RadioButton mnemonicParsing="false" onAction="#insertTextSelected" selected="true" text="Insert text" GridPane.rowIndex="2">
            <tooltip>
                <Tooltip text="Write the words on the field. Separate them with tab, each line represents a separate word" />
            </tooltip>
@@ -47,15 +47,17 @@
            </toggleGroup>
        </RadioButton>
 
-       <RadioButton mnemonicParsing="false" text="Choose file" toggleGroup="$insertVocabMethod" GridPane.columnIndex="1" GridPane.rowIndex="2">
+       <RadioButton mnemonicParsing="false" onAction="#chooseFileSelected" text="Choose file"
+                    toggleGroup="$insertVocabMethod" GridPane.columnIndex="1" GridPane.rowIndex="2">
            <tooltip>
                <Tooltip text="Choose a csv file to import the vocabulary" />
            </tooltip>
        </RadioButton>
 
-      <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+      <TextArea fx:id="textAreaField" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
 
-      <Button mnemonicParsing="false" onAction="#chooseFile" text="Choose file" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Button mnemonicParsing="false" fx:id="chooseFileButton" onAction="#chooseFile" text="Choose file"
+              GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <Button mnemonicParsing="false" onAction="#submitAction" text="Submit" GridPane.rowIndex="4" />
       <Button mnemonicParsing="false" onAction="#closeWindow" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 

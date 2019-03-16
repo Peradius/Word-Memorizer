@@ -26,6 +26,7 @@
 16. Uzupełnić Opcje
 17. Uzupełnic About
 18. Uzupełnić Manual
+19. Bulk Add Words nie pokazuje nowych slowek, trzeba kliknac jeszcze raz na dany poziom
 
 === W kolejnych wersjach ===
 

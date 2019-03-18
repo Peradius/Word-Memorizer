@@ -8,12 +8,12 @@ public class AddNewLevelController {
     @FXML
     TextField levelNameField;
 
-    public void processResults(int courseID) {
+    public int processResults(int courseID) {
         String levelName = levelNameField.getText().trim();
 
-        Datasource.getInstance().addNewLevelToCourse(courseID, levelName);
+        int newLevelID = Datasource.getInstance().addNewLevelToCourse(courseID, levelName);
 
         System.out.println("Level " + levelName + " added.");
-
+        return newLevelID;
     }
 }

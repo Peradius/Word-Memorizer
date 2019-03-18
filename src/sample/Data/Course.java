@@ -3,6 +3,7 @@ package sample.Data;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Course {
@@ -10,8 +11,8 @@ public class Course {
     private SimpleStringProperty courseName;
     private SimpleStringProperty courseLanguage;
     private SimpleStringProperty usersLanguage;
-    private SimpleIntegerProperty levelsCount;
-    private SimpleIntegerProperty wordsCount;
+    private int levelsCount;
+    private int wordsCount;
 
     private List<Level> levels;
     private List<Word> vocabulary;
@@ -22,9 +23,8 @@ public class Course {
         this.courseName = new SimpleStringProperty();
         this.courseLanguage = new SimpleStringProperty();
         this.usersLanguage = new SimpleStringProperty();
-        this.levelsCount = new SimpleIntegerProperty();
-        this.wordsCount = new SimpleIntegerProperty();
-
+        this.levels = new LinkedList<>();
+        this.vocabulary = new LinkedList<>();
     }
 
     public int getCourseID() {
@@ -59,14 +59,6 @@ public class Course {
         this.usersLanguage.set(usersLanguage);
     }
 
-    public List<Word> getVocabulary() {
-        return vocabulary;
-    }
-
-    public void setVocabulary(List<Word> vocabulary) {
-        this.vocabulary = vocabulary;
-    }
-
     public List<Level> getLevels() {
         return levels;
     }
@@ -76,18 +68,34 @@ public class Course {
     }
 
     public int getLevelsCount() {
-        return levelsCount.get();
+        return levels.size();
     }
 
-    public void setLevelsCount(int levelsCount) {
-        this.levelsCount.set(levelsCount);
+    public List<Word> getVocabulary() {
+        return vocabulary;
+    }
+
+    public void setVocabulary(List<Word> vocabulary) {
+        this.vocabulary = vocabulary;
     }
 
     public int getWordsCount() {
-        return wordsCount.get();
+        return vocabulary.size();
     }
 
-    public void setWordsCount(int wordsCount) {
-        this.wordsCount.set(wordsCount);
+    public void incrementLevelsCount(int val) {
+        this.levelsCount += val;
+    }
+
+    public void decrementLevelsCount(int val) {
+        this.levelsCount -= val;
+    }
+
+    public void incrementWordsCount(int val) {
+        this.wordsCount += val;
+    }
+
+    public void decrementWordsCount(int val) {
+        this.wordsCount -= val;
     }
 }

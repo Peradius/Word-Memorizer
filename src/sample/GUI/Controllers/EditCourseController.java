@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import sample.Data.Course;
 import sample.Data.Datasource;
-import sample.Data.Word;
 
 public class EditCourseController {
     @FXML

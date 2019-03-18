@@ -52,6 +52,16 @@ public class Controller {
 
         refreshCourseList();
 
+        FXMLLoader courseOvervierLoader = new FXMLLoader();
+        courseOvervierLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseOverviewWindow.fxml"));
+        try{
+            mainBorderPane.setCenter(courseOvervierLoader.load());
+            CourseOverviewController controller = courseOvervierLoader.getController();
+            controller.disableAllButtons();
+        } catch (IOException e ) {
+            System.out.println("Error loading the course overview window");
+        }
+
         courseListView.setCellFactory(e -> new ListCell<>() {
             @Override
             protected void updateItem(Course course, boolean empty) {
@@ -74,6 +84,9 @@ public class Controller {
                 removeCourseItem.setDisable(false);
                 loadCourseItem.setDisable(false);
                 showOverviewItem.setDisable(false);
+
+                CourseOverviewController controller = courseOvervierLoader.getController();
+                controller.populateFields(selectedCourse);
             } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
         });
     }
@@ -113,7 +126,7 @@ public class Controller {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.initOwner(mainBorderPane.getScene().getWindow());
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("editCourseWindow.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/editCourseWindow.fxml"));
 
             try {
                 dialog.getDialogPane().setContent(fxmlLoader.load());

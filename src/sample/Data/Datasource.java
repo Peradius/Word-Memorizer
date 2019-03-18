@@ -18,24 +18,18 @@ public class Datasource {
     public static final String COLUMN_COURSES_NAME = "Course_Name";
     public static final String COLUMN_COURSES_COURSELANGUAGE = "Course_Language";
     public static final String COLUMN_COURSES_USERSLANGUAGE = "Users_Language";
-    public static final String COLUMN_COURSES_LEVELS = "Levels";
-    public static final String COLUMN_COURSES_WORDS = "Words";
     public static final int INDEX_COURSES_ID = 1;
     public static final int INDEX_COURSES_NAME = 2;
     public static final int INDEX_COURSES_COURSELANGUAGE = 3;
     public static final int INDEX_COURSES_USERSLANGUAGE = 4;
-    public static final int INDEX_COURSES_LEVELS = 5;
-    public static final int INDEX_COURSES_WORDS = 6;
 
     public static final String TABLE_LEVELS = "Levels";
     public static final String COLUMN_LEVELS_ID = "ID_Level";
     public static final String COLUMN_LEVELS_IDCOURSE = "ID_Course";
     public static final String COLUMN_LEVELS_NAME = "Level_Name";
-    public static final String COLUMN_LEVELS_WORDS = "Words";
     public static final int INDEX_LEVELS_ID = 1;
     public static final int INDEX_LEVELS_IDCOURSE = 2;
     public static final int INDEX_LEVELS_NAME = 3;
-    public static final int INDEX_LEVELS_WORDS = 4;
 
     public static final String TABLE_WORDS = "Words";
     public static final String COLUMN_WORDS_ID = "ID_Word";
@@ -102,6 +96,15 @@ public class Datasource {
     public static final String DELETE_ALL_WORDS_FROM_LEVEL = "DELETE FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDLEVEL + " = ?";
     // DELETE FROM Words WHERE ID_Level = ?
 
+    public static final String COUNT_LEVELS_IN_COURSE = "SELECT COUNT(*) FROM " + TABLE_LEVELS + " WHERE " + COLUMN_LEVELS_IDCOURSE + " = ?";
+    //  SELECT COUNT (*) FROM LEVELS WHERE ID_Course = ?
+
+    public static final String COUNT_WORDS_IN_COURSE = "SELECT COUNT(*) FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDCOURSE + " = ?";
+    //  SELECT COUNT (*) FROM WORDS WHERE ID_Course = ?
+
+    public static final String COUNT_WORDS_IN_LEVEL = "SELECT COUNT(*) FROM " + TABLE_WORDS + " WHERE " + COLUMN_WORDS_IDLEVEL + " = ?";
+    //  SELECT COUNT (*) FROM WORDS WHERE ID_Level = ?
+
     public static final String UPDATE_COURSE = "UPDATE " + TABLE_COURSES + " SET "
             + COLUMN_COURSES_NAME + " = ?, " + COLUMN_COURSES_COURSELANGUAGE + " = ?, " + COLUMN_COURSES_USERSLANGUAGE + " = ? WHERE "
             + COLUMN_COURSES_ID + " = ?";
@@ -121,6 +124,10 @@ public class Datasource {
     private PreparedStatement updateCourse;
     private PreparedStatement updateLevel;
     private PreparedStatement updateWord;
+
+    private PreparedStatement countLevelsInCourse;
+    private PreparedStatement countWordsInLevel;
+    private PreparedStatement countWordsInCourse;
 
     private PreparedStatement deleteCourse;
     private PreparedStatement deleteAllLevelsFromCourse;
@@ -146,7 +153,7 @@ public class Datasource {
             connection = DriverManager.getConnection(CONNECTION_STRING);
 
             addNewCourse = connection.prepareStatement(ADD_NEW_COURSE, Statement.RETURN_GENERATED_KEYS);
-            addNewLevel = connection.prepareStatement(ADD_NEW_LEVEL);
+            addNewLevel = connection.prepareStatement(ADD_NEW_LEVEL, Statement.RETURN_GENERATED_KEYS);
             addNewWord = connection.prepareStatement(ADD_NEW_WORD);
             queryVocabularyFromCourse = connection.prepareStatement(QUERY_VOCAB_FROM_COURSE);
             queryVocabularyFromLevel = connection.prepareStatement(QUERY_VOCAB_FROM_LEVEL);
@@ -154,6 +161,9 @@ public class Datasource {
             updateCourse = connection.prepareStatement(UPDATE_COURSE);
             updateWord = connection.prepareStatement(UPDATE_WORD);
             updateLevel = connection.prepareStatement(UPDATE_LEVEL);
+            countLevelsInCourse = connection.prepareStatement(COUNT_LEVELS_IN_COURSE);
+            countWordsInLevel = connection.prepareStatement(COUNT_WORDS_IN_LEVEL);
+            countWordsInCourse = connection.prepareStatement(COUNT_WORDS_IN_COURSE);
             deleteCourse = connection.prepareStatement(DELETE_COURSE);
             deleteLevelByID = connection.prepareStatement(DELETE_LEVEL_BY_ID);
             deleteWordByID = connection.prepareStatement(DELETE_WORD_BY_ID);
@@ -209,7 +219,7 @@ public class Datasource {
         }
     }
 
-    public void addNewLevelToCourse(int courseID, String levelName) {
+    public int addNewLevelToCourse(int courseID, String levelName) {
         try {
             connection.setAutoCommit(false);
 
@@ -220,6 +230,8 @@ public class Datasource {
             if(affectedRows == 1) {
                 System.out.println("Level " + levelName + " sucessfully added to the Course!");
                 connection.commit();
+                ResultSet generatedKeys = addNewLevel.getGeneratedKeys();
+                return generatedKeys.getInt(1);
             } else {
                 throw new SQLException("Failed adding new level!");
             }
@@ -231,6 +243,7 @@ public class Datasource {
             } catch (SQLException e1) {
                 System.out.println("Rollback failed! " + e1.getMessage());
             }
+            return -1;
         }
         finally {
             try {
@@ -382,6 +395,48 @@ public class Datasource {
             System.out.println("Error while getting vocabulary from the level! \n");
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public int getLevelsCountFromCourse(Course course) {
+        try {
+            int courseID = course.getCourseID();
+            countLevelsInCourse.setInt(1, courseID);
+
+            ResultSet result = countLevelsInCourse.executeQuery();
+            return result.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("Error getting level count from courses \n");
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public int getWordsCountFromCourse(Course course) {
+        try {
+            int courseID = course.getCourseID();
+            countWordsInCourse.setInt(1, courseID);
+
+            ResultSet result = countWordsInCourse.executeQuery();
+            return result.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("Error getting words count from course \n");
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public int getWordsCountFromLevel(Level level) {
+        try {
+            int levelID = level.getIdLevel();
+            countWordsInLevel.setInt(1, levelID);
+
+            ResultSet result = countWordsInLevel.executeQuery();
+            return result.getInt(1);
+        } catch (SQLException e) {
+            System.out.println("Error getting words count from level \n");
+            e.printStackTrace();
+            return -1;
         }
     }
 
@@ -638,6 +693,15 @@ public class Datasource {
             }
             if(deleteAllWordsFromLevel != null) {
                 deleteAllWordsFromLevel.close();
+            }
+            if(countWordsInCourse != null) {
+                countWordsInCourse.close();
+            }
+            if(countWordsInLevel != null) {
+                countWordsInLevel.close();
+            }
+            if(countLevelsInCourse != null) {
+                countLevelsInCourse.close();
             }
 
             if(connection != null) {

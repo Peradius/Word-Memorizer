@@ -55,9 +55,6 @@
     </left>
 
     <center>
-        <VBox prefHeight="423.0" prefWidth="248.0">
-            <Label text="This section is to be implemented" />
-        </VBox>
     </center>
 
 </BorderPane>

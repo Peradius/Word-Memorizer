@@ -16,6 +16,7 @@ import sample.Data.Level;
 import sample.Data.Word;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,8 @@ public class CourseWindowController {
 
     private Course currentCourse;
     private int courseID;
-    private List<Level> levelList;
+    private List<Level> levelList = new LinkedList<>();
+    private List<Word> courseVocabulary = new LinkedList<>();
 
     public void setCourse(Course course) {
         this.currentCourse = course;
@@ -83,12 +85,41 @@ public class CourseWindowController {
 
     @FXML
     public void showOverview() {
-        System.out.println("Show Overview to be implemented!");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseOverviewWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"Course Overview Window\"");
+            System.out.println(e.getMessage());
+            return;
+        }
+        CourseOverviewController controller = fxmlLoader.getController();
+        controller.populateFields(currentCourse);
     }
 
     @FXML
     public void showVocabulary() {
-        System.out.println("Show Vocabulary to be implemented!");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseVocabularyWindow.fxml"));
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading \"Course Vocabulary Window\"");
+            e.printStackTrace();
+            return;
+        }
+        CourseVocabularyWindowController controller = fxmlLoader.getController();
+        controller.setSelectedCourse(currentCourse);
+        controller.processResults();
     }
 
     @FXML
@@ -211,9 +242,10 @@ public class CourseWindowController {
         if(result.isPresent() && result.get() == ButtonType.OK) {
             Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
             int levelID = selectedLevel.getIdLevel();
-
             AddNewWordController controller = fxmlLoader.getController();
             controller.processResults(courseID, levelID);
+
+            refreshVocabularyList();
             courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(levelID));
             levelListView.getSelectionModel().select(selectedLevel);
             courseTableView.refresh();
@@ -240,6 +272,7 @@ public class CourseWindowController {
             BulkAddWordsController controller = fxmlLoader.getController();
             controller.setCourseID(courseID);
             controller.setLevelID(selectedLevel.getIdLevel());
+            refreshVocabularyList();
         }
     }
 
@@ -273,6 +306,7 @@ public class CourseWindowController {
                 Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
                 int wordID = selectedWord.getIdWord();
                 controller.updateWord(wordID);
+                refreshVocabularyList();
 
                 courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(selectedLevel.getIdLevel()));
             }
@@ -297,6 +331,7 @@ public class CourseWindowController {
                 int id = selectedWord.getIdWord();
                 Datasource.getInstance().removeWordFromDB(id);
                 System.out.println("Word deleted!");
+                refreshVocabularyList();
                 courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(levelID));
                 levelListView.getSelectionModel().select(selectedLevel);
             }
@@ -353,10 +388,8 @@ public class CourseWindowController {
         controller.processReview();
     }
 
-
     void initialLoad() {
-        List<Word> courseVocabulary = Datasource.getInstance().getVocabularyFromCourse(courseID);
-        currentCourse.setVocabulary(courseVocabulary);
+        courseVocabulary = Datasource.getInstance().getVocabularyFromCourse(courseID);
 
         columnID.setCellValueFactory(new PropertyValueFactory<>("idWord"));
         columnForeign.setCellValueFactory(new PropertyValueFactory<>("foreignWord"));
@@ -372,7 +405,13 @@ public class CourseWindowController {
 
     private void refreshLevelList() {
         levelList = Datasource.getInstance().getLevelsFromCourse(courseID);
+        currentCourse.setLevels(levelList);
         levelListView.getItems().setAll(levelList);
+    }
+
+    private void refreshVocabularyList() {
+        courseVocabulary = Datasource.getInstance().getVocabularyFromCourse(courseID);
+        currentCourse.setVocabulary(courseVocabulary);
     }
 
     private Level getFirstLevel() {

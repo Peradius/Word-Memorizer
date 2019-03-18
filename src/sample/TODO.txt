@@ -1,16 +1,10 @@
 === Przed wydaniem nowej wersji ===
 
-2.
-    a. Bulk add words
-    b. aby dodac slowko, musi byc zaznaczony level
+2. Course Window
     c. dodanie levelu zaznacza level
     d. usuniecie levelu zaznacza 1 level
-    e. show overview
-    f. show vocabulary
     g. exit course nie działa
 
-3. Zaimplementować Course Overview i zbindować go do okna.
-   Po kliknięciu kursu, odświeżają się odpowiednie informacje
 4. AddCourse : żadne pole nie może być puste
 5. EditCourse : żadne pole nie może być puste
 6. Usunąć buttony z dołu w courseWindow

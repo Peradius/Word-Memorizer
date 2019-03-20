@@ -47,12 +47,8 @@ public class CourseWindowController {
 
     public void setCourse(Course course) {
         this.currentCourse = course;
+        courseID = course.getCourseID();
     }
-
-    public void setCourseID(int courseID) {
-        this.courseID = courseID;
-    }
-
 
     public void initialize() {
         levelListView.setCellFactory(e -> new ListCell<>() {
@@ -405,7 +401,6 @@ public class CourseWindowController {
 
     private void refreshLevelList() {
         levelList = Datasource.getInstance().getLevelsFromCourse(courseID);
-        currentCourse.setLevels(levelList);
         levelListView.getItems().setAll(levelList);
     }
 

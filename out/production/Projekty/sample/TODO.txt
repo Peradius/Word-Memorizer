@@ -3,8 +3,6 @@
 2. Course Window
     c. dodanie levelu zaznacza level
     d. usuniecie levelu zaznacza 1 level
-    e. show overview
-    f. show vocabulary
     g. exit course nie działa
 
 4. AddCourse : żadne pole nie może być puste

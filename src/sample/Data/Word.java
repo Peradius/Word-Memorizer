@@ -42,16 +42,8 @@ public class Word {
         this.translatedWord.set(translatedWord);
     }
 
-    public int getIdCourse() {
-        return idCourse.get();
-    }
-
     public void setIdCourse(int idCourse) {
         this.idCourse.set(idCourse);
-    }
-
-    public int getIdLevel() {
-        return idLevel.get();
     }
 
     public void setIdLevel(int idLevel) {

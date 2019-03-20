@@ -46,8 +46,9 @@ public class BulkAddWordsController {
 
     @FXML
     public void initialize() {
-        insertTextSelected();
+        insertTextSelected(); // Initially, the insert text method is selected
     }
+
     @FXML
     public void chooseFile() {
         FileChooser fileChooser = new FileChooser();
@@ -97,9 +98,8 @@ public class BulkAddWordsController {
             importedVocab.clear();
             String[] lines = textAreaField.getText().split("\\r?\\n");
             int length = lines.length;
-            System.out.println("DEBUG: THERE'S " + length + " WORDS IN THE TEXTAREA");
-            for (int i = 0; i < length; i++) {
-                String[] singleWord = lines[i].split(",");
+            for (String line : lines) {
+                String[] singleWord = line.split(",");
                 Word newWord = new Word();
                 newWord.setForeignWord(singleWord[0]);
                 newWord.setTranslatedWord(singleWord[1]);
@@ -112,6 +112,7 @@ public class BulkAddWordsController {
             for(Word word : importedVocab) {
                 Datasource.getInstance().addNewWordToLevel(courseID, levelID, word.getForeignWord(), word.getTranslatedWord());
             }
+
             closeWindow();
         } else if(insertVocabMethod.getSelectedToggle() == insertVocabMethod.getToggles().get(CHOOSE_FILE_TOGGLE_ID)) {
             // Choose file method

@@ -66,7 +66,7 @@ public class ReviewWindowController {
     private int wrongAnswersAmount = 0;
     private int x = 0;
     private List<Word> vocabularyToReview = new LinkedList<>();
-    private int reviewSessionSize;
+    private Integer reviewSessionSize;
 
     public void processReview() {
 
@@ -77,7 +77,7 @@ public class ReviewWindowController {
         }
 
         reviewSessionSize = vocabularyToReview.size();
-        totalWordsLabel.setText("" + reviewSessionSize);
+        totalWordsLabel.setText(reviewSessionSize.toString());
         reviewSingleWord();
     }
 

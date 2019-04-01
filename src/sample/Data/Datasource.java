@@ -412,7 +412,7 @@ public class Datasource {
 //        }
 //    }
 
-    public void addNewCourse(String courseName, String teachingLanguage, String usersLanguage) {
+    public int addNewCourse(String courseName, String teachingLanguage, String usersLanguage) {
         try {
             connection.setAutoCommit(false);
 
@@ -428,8 +428,10 @@ public class Datasource {
                     ResultSet generatedKeys = addNewCourse.getGeneratedKeys();
                     int newCourseID = generatedKeys.getInt(1);
                     addNewLevelToCourse(newCourseID, "Level 1");
+                    return newCourseID;
                 } catch(SQLException e) {
                     System.out.println("Failed obtaining the course ID");
+                    return -1;
                 }
             } else {
                 throw new SQLException("Failed adding new course!");
@@ -437,6 +439,7 @@ public class Datasource {
         } catch (Exception e) {
             System.out.println("Insert new course exception: " + e.getMessage());
             performRollbackFunction();
+            return -1;
         }
         finally {
             performFinallyFunction();

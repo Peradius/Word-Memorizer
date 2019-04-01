@@ -17,12 +17,17 @@ public class AddNewCourseController {
     @FXML
     private TextField courseLanguageField;
 
-    public void processResults() {
+    public int processResults() {
         String courseName= courseNameField.getText().trim();
         String teachingLanguage = teachingLanguageField.getText().trim();
         String courseLanguage = courseLanguageField.getText().trim();
-
-        Datasource.getInstance().addNewCourse(courseName, teachingLanguage, courseLanguage);
-        System.out.println("Course " + courseName + " added.");
+        if(courseName.equals("") || teachingLanguage.equals("") || courseLanguage.equals("")) {
+            System.out.println("No field can be empty!");
+            return -1;
+        } else {
+            int newCourseID = Datasource.getInstance().addNewCourse(courseName, teachingLanguage, courseLanguage);
+            System.out.println("Course " + courseName + " added.");
+            return newCourseID;
+        }
     }
 }

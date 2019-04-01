@@ -39,6 +39,20 @@ public class CourseWindowController {
     @FXML
     private TableColumn<Word, String> columnTranslation;
 
+//    ---
+    
+    private static final String WINDOWS_LOCATION = "/sample/GUI/Windows/";
+
+    private static final String COURSE_OVERVIEW_WINDOW = WINDOWS_LOCATION + "courseOverviewWindow.fxml";
+    private static final String COURSE_VOCABULARY_WINDOW = WINDOWS_LOCATION + "courseVocabularyWindow.fxml";
+    private static final String ADD_NEW_LEVEL_WINDOW = WINDOWS_LOCATION + "addNewLevelWindow.fxml";
+    private static final String EDIT_LEVEL_WINDOW = WINDOWS_LOCATION + "editLevelWindow.fxml";
+    private static final String ADD_NEW_WORD_WINDOW = WINDOWS_LOCATION + "addNewWordWindow.fxml";
+    private static final String BULK_ADD_WORDS_WINDOW = WINDOWS_LOCATION + "bulkAddWordsWindow.fxml";
+    private static final String EDIT_WORD_WINDOW = WINDOWS_LOCATION + "editWordWindow.fxml";
+    private static final String REVIEW_WINDOW = WINDOWS_LOCATION + "reviewWindow.fxml";
+
+//    ---
 
     private Course currentCourse;
     private int courseID;
@@ -47,7 +61,7 @@ public class CourseWindowController {
 
     public void setCourse(Course course) {
         this.currentCourse = course;
-        courseID = course.getCourseID();
+        this.courseID = course.getCourseID();
     }
 
     public void initialize() {
@@ -78,22 +92,13 @@ public class CourseWindowController {
         });
     }
 
-
     @FXML
     public void showOverview() {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseOverviewWindow.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch(IOException e) {
-            System.out.println("Failed loading \"Course Overview Window\"");
-            System.out.println(e.getMessage());
-            return;
-        }
+        fxmlLoader.setLocation(getClass().getResource(COURSE_OVERVIEW_WINDOW));
+
+        loadWindow(fxmlLoader, "Course Overview Window");
+
         CourseOverviewController controller = fxmlLoader.getController();
         controller.populateFields(currentCourse);
     }
@@ -101,18 +106,10 @@ public class CourseWindowController {
     @FXML
     public void showVocabulary() {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/courseVocabularyWindow.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch(IOException e) {
-            System.out.println("Failed loading \"Course Vocabulary Window\"");
-            e.printStackTrace();
-            return;
-        }
+        fxmlLoader.setLocation(getClass().getResource(COURSE_VOCABULARY_WINDOW));
+
+        loadWindow(fxmlLoader, "Course Vocabulary Window");
+
         CourseVocabularyWindowController controller = fxmlLoader.getController();
         controller.setSelectedCourse(currentCourse);
         controller.processResults();
@@ -138,7 +135,7 @@ public class CourseWindowController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(courseBorderPane.getScene().getWindow());
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/addNewLevelWindow.fxml"));
+        fxmlLoader.setLocation(getClass().getResource(ADD_NEW_LEVEL_WINDOW));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -155,8 +152,9 @@ public class CourseWindowController {
 
         if(result.isPresent() && result.get() == ButtonType.OK) {
             AddNewLevelController controller = fxmlLoader.getController();
-            controller.processResults(courseID);
+            int newLevelID = controller.processResults(courseID);
             refreshLevelList();
+            selectLevel(newLevelID);
         }
     }
 
@@ -167,7 +165,7 @@ public class CourseWindowController {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.initOwner(courseBorderPane.getScene().getWindow());
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/editLevelWindow.fxml"));
+            fxmlLoader.setLocation(getClass().getResource(EDIT_LEVEL_WINDOW));
 
             try {
                 dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -211,6 +209,7 @@ public class CourseWindowController {
                 Datasource.getInstance().deleteLevelFromDB(levelID);
                 System.out.println("Level deleted!");
                 refreshLevelList();
+                selectLevel(getFirstLevel());
             }
         }
     }
@@ -220,7 +219,7 @@ public class CourseWindowController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(courseBorderPane.getScene().getWindow());
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/addNewWordWindow.fxml"));
+        fxmlLoader.setLocation(getClass().getResource(ADD_NEW_WORD_WINDOW));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -243,7 +242,7 @@ public class CourseWindowController {
 
             refreshVocabularyList();
             courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(levelID));
-            levelListView.getSelectionModel().select(selectedLevel);
+            selectLevel(selectedLevel);
             courseTableView.refresh();
         }
     }
@@ -253,22 +252,27 @@ public class CourseWindowController {
         Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
         if(selectedLevel != null) {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/bulkAddWordsWindow.fxml"));
+            fxmlLoader.setLocation(getClass().getResource(BULK_ADD_WORDS_WINDOW));
+
             try {
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.show();
+
+                BulkAddWordsController controller = fxmlLoader.getController();
+                controller.setCourseID(courseID);
+                controller.setLevelID(selectedLevel.getIdLevel());
+
+                stage.showAndWait();
             } catch(IOException e) {
-                System.out.println("Failed loading \"Bulk Add Words Window\"");
-                System.out.println(e.getMessage());
-                return;
+                System.out.println("Failed loading BULK ADD WORDS");
+                e.printStackTrace();
             }
-            BulkAddWordsController controller = fxmlLoader.getController();
-            controller.setCourseID(courseID);
-            controller.setLevelID(selectedLevel.getIdLevel());
+
+
             refreshVocabularyList();
+            selectLevel(selectedLevel);
         }
     }
 
@@ -280,7 +284,7 @@ public class CourseWindowController {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.initOwner(courseBorderPane.getScene().getWindow());
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/editWordWindow.fxml"));
+            fxmlLoader.setLocation(getClass().getResource(EDIT_WORD_WINDOW));
 
             try {
                 dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -329,7 +333,7 @@ public class CourseWindowController {
                 System.out.println("Word deleted!");
                 refreshVocabularyList();
                 courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(levelID));
-                levelListView.getSelectionModel().select(selectedLevel);
+                selectLevel(selectedLevel);
             }
         }
     }
@@ -339,19 +343,9 @@ public class CourseWindowController {
         System.out.println("Review all words button clicked!");
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/reviewWindow.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setTitle("Review Session");
-            stage.setScene(scene);
-            stage.initOwner(courseBorderPane.getScene().getWindow());
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch(IOException e) {
-            System.out.println("Failed loading \"reviewWindow\"");
-            return;
-        }
+        fxmlLoader.setLocation(getClass().getResource(REVIEW_WINDOW));
+
+        loadWindow(fxmlLoader, "Review Window");
 
         ReviewWindowController controller = fxmlLoader.getController();
         controller.setReviewCourse(true);
@@ -364,17 +358,9 @@ public class CourseWindowController {
         System.out.println("Review level button clicked!");
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/sample/GUI/Windows/reviewWindow.fxml"));
-        try {
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
-            stage.setTitle("Review Session");
-            stage.setScene(scene);
-            stage.show();
-        } catch(IOException e) {
-            System.out.println("Failed loading \"reviewWindow\"");
-            return;
-        }
+        fxmlLoader.setLocation(getClass().getResource(REVIEW_WINDOW));
+
+        loadWindow(fxmlLoader, "Review Window");
 
         ReviewWindowController controller = fxmlLoader.getController();
         Level selectedLevel = levelListView.getSelectionModel().getSelectedItem();
@@ -382,6 +368,19 @@ public class CourseWindowController {
         controller.setReviewCourse(false);
         controller.setSessionID(selectedLevel.getIdLevel());
         controller.processReview();
+    }
+
+    private void loadWindow(FXMLLoader fxmlLoader, String windowName) {
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch(IOException e) {
+            System.out.println("Failed loading " + windowName);
+            e.printStackTrace();
+        }
     }
 
     void initialLoad() {
@@ -395,8 +394,26 @@ public class CourseWindowController {
 
         refreshLevelList();
         Level firstLevel = getFirstLevel();
-        levelListView.getSelectionModel().select(firstLevel);
+        selectLevel(firstLevel);
 
+    }
+
+    private void selectLevel(int levelID) {
+        Level selectedLevel = new Level();
+        for(Level level : levelList) {
+            if(level.getIdLevel() == levelID) {
+                selectedLevel = level;
+                break;
+            }
+        }
+
+        levelListView.getSelectionModel().select(selectedLevel);
+        courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(levelID));
+    }
+
+    private void selectLevel(Level level) {
+        levelListView.getSelectionModel().select(level);
+        courseTableView.getItems().setAll(Datasource.getInstance().getVocabularyFromLevel(level.getIdLevel()));
     }
 
     private void refreshLevelList() {

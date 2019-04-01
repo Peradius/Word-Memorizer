@@ -97,7 +97,7 @@ public class BulkAddWordsController {
             // Initial list clear
             importedVocab.clear();
             String[] lines = textAreaField.getText().split("\\r?\\n");
-            int length = lines.length;
+//            int length = lines.length;
             for (String line : lines) {
                 String[] singleWord = line.split(",");
                 Word newWord = new Word();

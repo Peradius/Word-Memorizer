@@ -1,9 +1,5 @@
 === Przed wydaniem nowej wersji ===
 
-2. Course Window
-    c. dodanie levelu zaznacza level
-    d. usuniecie levelu zaznacza 1 level
-    g. exit course nie działa
 
 4. AddCourse : żadne pole nie może być puste
 5. EditCourse : żadne pole nie może być puste
@@ -11,8 +7,6 @@
 7. AddLevel nie moze byc puste
 8. EditLevel nie moze byc puste
 9. W review można klikać Enter
-11. Usunąć powtarzający się kod
-12. Zrobić porządek w kodzie
 13. Podczas review białe znaki na początku i końcu, i wielkość liter
     nie powinny mieć znaczenia
 14. Dodać exit button do review session
@@ -20,7 +14,6 @@
 16. Uzupełnić Opcje
 17. Uzupełnic About
 18. Uzupełnić Manual
-19. Bulk Add Words nie pokazuje nowych slowek, trzeba kliknac jeszcze raz na dany poziom
 
 === W kolejnych wersjach ===
 

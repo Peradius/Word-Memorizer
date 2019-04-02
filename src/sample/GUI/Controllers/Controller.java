@@ -105,6 +105,8 @@ public class Controller {
                 controller.populateFields(selectedCourse);
             } // Without the 'if' statement, we'd get a NullPointerException after deleting an item
         });
+
+        selectCourse(getFirstCourse());
     }
 
     @FXML
@@ -286,6 +288,17 @@ public class Controller {
         courseListView.getSelectionModel().select(course);
     }
 
+    private Course getFirstCourse() {
+        Course firstCourse = coursesList.get(0);
+
+        for(Course course : coursesList) {
+            if( course.getCourseID() < firstCourse.getCourseID()) {
+                firstCourse = course;
+            }
+        }
+        return firstCourse;
+    }
+
     private void loadWindow(FXMLLoader fxmlLoader, String windowName) {
         try {
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
@@ -295,6 +308,7 @@ public class Controller {
             stage.show();
         } catch(IOException e) {
             System.out.println("Failed loading " + windowName);
+            e.getMessage();
             e.printStackTrace();
         }
     }

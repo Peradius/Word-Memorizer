@@ -26,7 +26,9 @@
           <TextField fx:id="translatedWordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
           <Button onAction="#nextButton"  text="Next" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-          <Label fx:id="resultLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+          <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+          <Button onAction="#exit"  text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
           <Separator prefWidth="200.0" GridPane.rowIndex="3" />
 

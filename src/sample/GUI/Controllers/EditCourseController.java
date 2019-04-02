@@ -26,6 +26,13 @@ public class EditCourseController {
         String newCourseLanguage = courseLanguageField.getText().trim();
         String newUsersLanguage = usersLanguageField.getText().trim();
 
-        Datasource.getInstance().updateCourseInDB(courseID, newCourseName, newCourseLanguage, newUsersLanguage);
+        if(newCourseName.equals("") || newCourseLanguage.equals("") || newUsersLanguage.equals("")) {
+            System.out.println("No field can be empty!");
+        } else {
+            Datasource.getInstance().updateCourseInDB(courseID, newCourseName, newCourseLanguage, newUsersLanguage);
+            System.out.println("Course " + newCourseName + " edited.");
+        }
+
+
     }
 }

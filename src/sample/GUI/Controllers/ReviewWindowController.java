@@ -2,6 +2,7 @@ package sample.GUI.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import sample.Data.Datasource;
 import sample.Data.Word;
@@ -44,6 +45,15 @@ public class ReviewWindowController {
     @FXML
     Label wrongWordsLabel;
 
+    public void initialize() {
+        // Pressing Enter works the same as pressing 'Next' button
+        translatedWordField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER) {
+                nextButton();
+            }
+        });
+    }
+
     @FXML
     public void nextButton() {
         String translatedWord = vocabularyToReview.get(x).getTranslatedWord();
@@ -60,6 +70,12 @@ public class ReviewWindowController {
         }
         x++;
         reviewSingleWord();
+    }
+
+    @FXML
+    public void exit() {
+        Stage stage = (Stage) reviewWindowPane.getScene().getWindow();
+        stage.close();
     }
 
     private int correctAnswersAmount = 0;
@@ -82,7 +98,7 @@ public class ReviewWindowController {
     }
 
     private void reviewSingleWord() {
-        if(x < reviewSessionSize) {
+        if (x < reviewSessionSize) {
             // There are words in the queue to be reviewed
 
             Word currentWord = vocabularyToReview.get(x);
@@ -101,12 +117,10 @@ public class ReviewWindowController {
                     "Wrong answers: " + wrongAnswersAmount);
             Optional<ButtonType> result = alert.showAndWait();
 
-            if(result.isPresent() && result.get() == ButtonType.OK) {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 Stage stage = (Stage) reviewWindowPane.getScene().getWindow();
                 stage.close();
-
             }
         }
     }
-
 }

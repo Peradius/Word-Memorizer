@@ -17,10 +17,11 @@ public class AddNewWordController {
         String foreignWord = foreignWordField.getText().trim();
         String translatedWord = translatedWordField.getText().trim();
 
-        Datasource.getInstance().addNewWordToLevel(courseID, levelID, foreignWord, translatedWord);
-
-        System.out.println("Word " + foreignWord + " added.");
-
+        if(foreignWord.equals("") || translatedWord.equals("")) {
+            System.out.println("No field can be empty!");
+        } else {
+            Datasource.getInstance().addNewWordToLevel(courseID, levelID, foreignWord, translatedWord);
+            System.out.println("Word " + foreignWord + " added.");
+        }
     }
-
 }

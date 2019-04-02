@@ -49,7 +49,7 @@
             <ListView fx:id="courseListView">
             </ListView>
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="248.0">
-                <Button onAction="#loadCourse" text="Load currentCourse" />
+                <Button onAction="#loadCourse" text="Load Course" />
             </HBox>
         </VBox>
     </left>

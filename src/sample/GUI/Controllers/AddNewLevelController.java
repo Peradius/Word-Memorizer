@@ -11,9 +11,14 @@ public class AddNewLevelController {
     public int processResults(int courseID) {
         String levelName = levelNameField.getText().trim();
 
-        int newLevelID = Datasource.getInstance().addNewLevelToCourse(courseID, levelName);
+        if(levelName.equals("")) {
+            System.out.println("No field can be empty!");
+            return -1;
+        } else {
+            int newLevelID = Datasource.getInstance().addNewLevelToCourse(courseID, levelName);
 
-        System.out.println("Level " + levelName + " added.");
-        return newLevelID;
+            System.out.println("Level " + levelName + " added.");
+            return newLevelID;
+        }
     }
 }

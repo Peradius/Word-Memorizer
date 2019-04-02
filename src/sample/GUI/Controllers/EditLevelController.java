@@ -17,6 +17,12 @@ public class EditLevelController {
 
     public void updateLevel(int levelID) {
         String newLevelName = levelNameField.getText().trim();
-        Datasource.getInstance().updateLevelInDB(levelID, newLevelName);
+
+        if(newLevelName.equals("")) {
+            System.out.println("No field can be empty!");
+        } else {
+            Datasource.getInstance().updateLevelInDB(levelID, newLevelName);
+            System.out.println("Level " + newLevelName + " edited.");
+        }
     }
 }

@@ -1,23 +1,11 @@
 === Przed wydaniem nowej wersji ===
 
 
-4. AddCourse : żadne pole nie może być puste
-5. EditCourse : żadne pole nie może być puste
-6. Usunąć buttony z dołu w courseWindow
-7. AddLevel nie moze byc puste
-8. EditLevel nie moze byc puste
-9. W review można klikać Enter
 13. Podczas review białe znaki na początku i końcu, i wielkość liter
     nie powinny mieć znaczenia
-14. Dodać exit button do review session
-15. Naprawić countery słów i poziomów w kursach
-16. Uzupełnić Opcje
-17. Uzupełnic About
-18. Uzupełnić Manual
 
 === W kolejnych wersjach ===
 
-1. Masowe dodawanie słowek w programie i wczytywanie ich z pliku
 2. Czasowe odświeżanie słówek
 3. Eksport słówek do pliku
 4. LEPSZE, ŁADNIEJSZE GUI
@@ -27,3 +15,4 @@
 8. Nauka nowych słówek (coś ala Memrise) i możliwość usunięcia ich z pamięci
 9. Możliwość wgrania audio do słówek
 10. Możliwość wgrania obrazków jako memy
+11. Możliwość przesuwania kursów do góry/na dół

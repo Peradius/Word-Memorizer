@@ -21,6 +21,7 @@ public class AddNewCourseController {
         String courseName= courseNameField.getText().trim();
         String teachingLanguage = teachingLanguageField.getText().trim();
         String courseLanguage = courseLanguageField.getText().trim();
+
         if(courseName.equals("") || teachingLanguage.equals("") || courseLanguage.equals("")) {
             System.out.println("No field can be empty!");
             return -1;

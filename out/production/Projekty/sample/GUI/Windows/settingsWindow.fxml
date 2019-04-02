@@ -1,11 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import javafx.scene.control.Button?>
+<GridPane fx:id="settingsGridPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+          xmlns:fx="http://javafx.com/fxml" fx:controller="sample.GUI.Controllers.SettingsWindowController">
+
+    <Label text="Language" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <ChoiceBox fx:id="languages" prefWidth="150.0" GridPane.columnIndex="1" />
+
+    <Label text="Application Layout" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <ChoiceBox fx:id="applicationLayout" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <Label text="View Mode" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <ChoiceBox fx:id="viewMode" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Separator prefWidth="200.0" GridPane.rowIndex="3" />
+
+    <Label text="Max words in learning session" GridPane.rowIndex="4" />
+    <ChoiceBox fx:id="learnSessionSize" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+    <Label text="Max words in review session" GridPane.rowIndex="5" />
+    <ChoiceBox fx:id="reviewSessionSize" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+    <Button text="OK" onAction="#saveConfig" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+    <Button text="Cancel" onAction="#exit" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    <columnConstraints>
+      <ColumnConstraints maxWidth="225.0" minWidth="205.0" percentWidth="80.0" prefWidth="225.0" />
+      <ColumnConstraints maxWidth="145.0" minWidth="125.0" percentWidth="20.0" prefWidth="125.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <opaqueInsets>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </opaqueInsets>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.SettingsWindowController">
-   <children>
-      <Label layoutX="145.0" layoutY="58.0" text="Setting menu" />
-   </children>
-</AnchorPane>
+</GridPane>

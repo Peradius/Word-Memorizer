@@ -21,6 +21,12 @@ public class EditWordController {
     public void updateWord(int id) {
         String newWordValue = foreignWordField.getText().trim();
         String newTranslationValue = translatedWordField.getText().trim();
-        Datasource.getInstance().updateWordInDB(id, newWordValue, newTranslationValue);
+
+        if(newWordValue.equals("") || newTranslationValue.equals("")) {
+            System.out.println("No field can be empty!");
+        } else {
+            Datasource.getInstance().updateWordInDB(id, newWordValue, newTranslationValue);
+            System.out.println("Word " + newWordValue + " edited.");
+        }
     }
 }

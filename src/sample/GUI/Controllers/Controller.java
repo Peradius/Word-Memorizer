@@ -221,7 +221,6 @@ public class Controller {
             CourseWindowController controller = fxmlLoader.getController();
             controller.setCourse(selectedCourse);
             controller.initialLoad();
-
         }
     }
 

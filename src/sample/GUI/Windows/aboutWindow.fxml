@@ -10,36 +10,50 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="400.0" prefWidth="600.0"
-          xmlns="http://javafx.com/javafx/8.0.172-ea">
+<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
 
-    <Label prefHeight="33.0" prefWidth="295.0" text="Word Memorizer created by Michał Wszołek" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <Label contentDisplay="CENTER" prefHeight="33.0" prefWidth="295.0" text="Word Memorizer created by Michał Wszołek" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
       <font>
          <Font name="Calibri Bold Italic" size="15.0" />
-      </font></Label>
+      </font>
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </GridPane.margin></Label>
     <Label text="This application was created to help me find the first job as Java Developer." textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2">
       <font>
          <Font name="Calibri" size="15.0" />
       </font>
       <opaqueInsets>
          <Insets />
-      </opaqueInsets></Label>
+      </opaqueInsets>
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </GridPane.margin></Label>
     <Label text="It is still under development. There's still a lot of features to be implemented." textAlignment="CENTER" wrapText="true" GridPane.rowIndex="3">
       <font>
          <Font name="Calibri" size="15.0" />
-      </font></Label>
+      </font>
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </GridPane.margin></Label>
     <Label text="Please check www.github.com/peradius for more details." textAlignment="CENTER" wrapText="true" GridPane.rowIndex="4">
       <font>
          <Font name="Calibri" size="15.0" />
       </font>
       <effect>
          <Glow />
-      </effect></Label>
+      </effect>
+      <GridPane.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </GridPane.margin></Label>
 
     <ImageView fitHeight="321.0" fitWidth="294.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowSpan="2147483647">
         <image>
             <Image url="@img/image.jpg" />
         </image>
+      <GridPane.margin>
+         <Insets />
+      </GridPane.margin>
     </ImageView>
 
    <columnConstraints>

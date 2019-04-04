@@ -49,6 +49,10 @@ public class Word {
     public void setIdLevel(int idLevel) {
         this.idLevel.set(idLevel);
     }
+
+    public int getIdLevel() {
+        return idLevel.get();
+    }
 }
 
 

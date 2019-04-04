@@ -9,35 +9,49 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<DialogPane prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.GUI.Controllers.ReviewWindowController"
-            fx:id="reviewWindowPane">
-    <headerText>
-        Review your words!
-    </headerText>
+<DialogPane fx:id="reviewWindowPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.ReviewWindowController">
+
+    <header>
+        <Label id="headingLabel" alignment="CENTER" text="Review your words!" />
+    </header>
+
    <content>
       <GridPane>
-          <Label text="English" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-          <TextField fx:id="foreignWordField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          <Label text="Word" GridPane.rowIndex="1" />
+          <TextField fx:id="foreignWordField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-          <Label text="Polish" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-          <TextField fx:id="translatedWordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+          <Label text="Translation" GridPane.rowIndex="2" />
+          <TextField fx:id="translatedWordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-          <Button onAction="#nextButton"  text="Next" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-          <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+          <Button onAction="#nextButton" text="Next" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+          <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-          <Button onAction="#exit"  text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+          <Button onAction="#exit" text="Cancel" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
 
-          <Separator prefWidth="200.0" GridPane.rowIndex="3" />
+          <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="4" />
 
-          <Label text="Total words to review: " GridPane.rowIndex="4" />
-          <Label fx:id="totalWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-          <Label text="Good: " GridPane.rowIndex="5" />
-          <Label fx:id="goodWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-          <Label text="Wrong: " GridPane.rowIndex="6" />
-          <Label fx:id="wrongWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+          <Label text="Total words to review: " GridPane.rowIndex="5" />
+          <Label fx:id="totalWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+          <Label text="Good: " GridPane.rowIndex="6" />
+          <Label fx:id="goodWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+          <Label text="Wrong: " GridPane.rowIndex="7" />
+          <Label fx:id="wrongWordsLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         <Separator prefWidth="200.0" GridPane.columnSpan="3" />
+         <columnConstraints>
+            <ColumnConstraints percentWidth="25.0" />
+            <ColumnConstraints percentWidth="50.0" />
+            <ColumnConstraints percentWidth="25.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints percentHeight="15.0" />
+            <RowConstraints percentHeight="15.0" />
+            <RowConstraints percentHeight="20.0" />
+            <RowConstraints />
+            <RowConstraints percentHeight="10.0" />
+            <RowConstraints percentHeight="10.0" />
+            <RowConstraints percentHeight="10.0" />
+         </rowConstraints>
       </GridPane>
    </content>
 </DialogPane>

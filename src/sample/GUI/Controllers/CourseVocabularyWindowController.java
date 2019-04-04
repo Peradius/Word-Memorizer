@@ -36,6 +36,5 @@ public class CourseVocabularyWindowController {
         columnTranslation.setCellValueFactory(new PropertyValueFactory<>("translatedWord"));
 
         wordsTableView.getItems().setAll(courseVocabulary);
-
     }
 }

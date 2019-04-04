@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <Label text="This is a UsersManualWindow. It is to be implemented in the future"/>
-
-</AnchorPane>
+<VBox alignment="CENTER" stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="headingLabel" text="User's Manual" />
+      <Separator />
+      <HBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="580.0">
+               <children>
+                  <Label id="manualHeadingLabel" text="Courses" />
+                  <Label id="manualLabel" text="You can add new courses, from which you intend to improve your vocabulary in any foreign language!" />
+                  <Separator prefWidth="200.0" />
+                  <Label id="manualHeadingLabel" text="Levels" />
+                  <Label id="manualLabel" text="Every course has levels. You can add, edit and delete these levels. Levels are often used to organise your vocabulary." />
+                  <Separator prefWidth="200.0" />
+                  <Label id="manualHeadingLabel" text="Words" />
+                  <Label id="manualLabel" text="Words are the most essential part of this application. You can add a single word to the specifed level (and course), or you can use the Bulk Add Word. You can import an csv file or paste the vocabulary by yourself!" />
+                  <Separator prefWidth="200.0" />
+                  <Label id="manualHeadingLabel" text="Reviewing" />
+                  <Label id="manualLabel" text="You need to review what you've learned so the knowledge doesn't fly off your head (nobody likes that, trust me!). You can review single levels or the whole courses at once!" />
+                  <Separator prefWidth="200.0" />
+                  <Label id="manualHeadingLabel" text="Points" />
+                  <Label id="manualLabel" text="You see, the points system is not implemented yet, but in the future you'll get points for learning and reviewing the vocabulary!" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+            <ScrollBar orientation="VERTICAL" prefWidth="20.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

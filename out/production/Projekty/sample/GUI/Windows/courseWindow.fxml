@@ -7,49 +7,38 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:id="courseBorderPane"
             fx:controller="sample.GUI.Controllers.CourseWindowController"
+            stylesheets="@css/default.css"
             prefHeight="400.0" prefWidth="600.0">
 
     <top>
         <MenuBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <menus>
-                <Menu text="File">
-                    <items>
-                        <MenuItem text="Exit Course" onAction="#exitCourse"/>
-                        <MenuItem text="Exit Application" onAction="#exitApplication"/>
-                    </items>
-                </Menu>
+            <Menu text="File">
+                    <MenuItem text="Exit Course" onAction="#exitCourse"/>
+                    <MenuItem text="Exit Application" onAction="#exitApplication"/>
+            </Menu>
 
-                <Menu text="Course">
-                    <items>
-                        <MenuItem text="Show overview" onAction="#showOverview"/>
-                        <MenuItem text="Show vocabulary" onAction="#showVocabulary"/>
-                    </items>
-                </Menu>
+            <Menu text="Course">
+                    <MenuItem text="Show overview" onAction="#showOverview"/>
+                    <MenuItem text="Show vocabulary" onAction="#showVocabulary"/>
+            </Menu>
 
-                <Menu text="Level">
-                    <items>
-                        <MenuItem text="Add level" onAction="#addLevel"/>
-                        <MenuItem text="Edit level" onAction="#editLevel"/>
-                        <MenuItem text="Remove level" onAction="#removeLevel"/>
-                    </items>
-                </Menu>
+            <Menu text="Level">
+                    <MenuItem text="Add level" onAction="#addLevel"/>
+                    <MenuItem text="Edit level" onAction="#editLevel"/>
+                    <MenuItem text="Remove level" onAction="#removeLevel"/>
+            </Menu>
 
-                <Menu text="Words">
-                    <items>
-                        <MenuItem text="Add word" onAction="#addWord"/>
-                        <MenuItem text="Bulk add words" onAction="#bulkAddWords"/>
-                        <MenuItem text="Edit word" onAction="#editWord"/>
-                        <MenuItem text="Remove word" onAction="#removeWord"/>
-                    </items>
-                </Menu>
+            <Menu text="Words">
+                    <MenuItem text="Add word" onAction="#addWord"/>
+                    <MenuItem text="Bulk add words" onAction="#bulkAddWords"/>
+                    <MenuItem text="Edit word" onAction="#editWord"/>
+                    <MenuItem text="Remove word" onAction="#removeWord"/>
+            </Menu>
 
-                <Menu text="Review">
-                    <items>
-                        <MenuItem text="Review level" onAction="#reviewLevelWords"/>
-                        <MenuItem text="Review course" onAction="#reviewAllWords"/>
-                    </items>
-                </Menu>
-            </menus>
+            <Menu text="Review">
+                    <MenuItem text="Review level" onAction="#reviewLevelWords"/>
+                    <MenuItem text="Review course" onAction="#reviewAllWords"/>
+            </Menu>
         </MenuBar>
     </top>
     <left>
@@ -63,7 +52,7 @@
             <TableView fx:id="courseTableView" prefHeight="382.0" prefWidth="248.0" BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="columnID" text="Word ID" />
-                    <TableColumn fx:id="columnForeign" text="Foreign" />
+                    <TableColumn fx:id="columnForeign" text="Word" />
                     <TableColumn fx:id="columnTranslation" text="Translation" />
                 </columns>
             </TableView>

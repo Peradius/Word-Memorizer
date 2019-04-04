@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -73,7 +74,7 @@ public class Controller {
         try{
             mainBorderPane.setCenter(courseOverviewLoader.load());
             CourseOverviewController controller = courseOverviewLoader.getController();
-            controller.disableAllButtons();
+            controller.disableCloseButton();
         } catch (IOException e ) {
             System.out.println("Error loading the course overview window");
         }
@@ -107,6 +108,17 @@ public class Controller {
         });
 
         selectCourse(getFirstCourse());
+
+        // Pressing Delete on course works the same as selecting "Delete course" item
+        // Pressing Insert works the same as selecting "Add new course" item
+        courseListView.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.DELETE) {
+                removeCourse();
+            }
+            if(keyEvent.getCode() == KeyCode.INSERT) {
+                addCourse();
+            }
+        });
     }
 
     @FXML
@@ -191,6 +203,7 @@ public class Controller {
                 Datasource.getInstance().deleteCourseFromDB(courseID);
                 System.out.println("Course deleted!");
                 refreshCourseList();
+                selectCourse(getFirstCourse());
             }
         }
     }
@@ -242,6 +255,7 @@ public class Controller {
         Course selectedCourse = courseListView.getSelectionModel().getSelectedItem();
         CourseOverviewController controller = fxmlLoader.getController();
         controller.populateFields(selectedCourse);
+        controller.disableLoadButton();
     }
 
     @FXML

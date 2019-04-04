@@ -101,6 +101,7 @@ public class CourseWindowController {
 
         CourseOverviewController controller = fxmlLoader.getController();
         controller.populateFields(currentCourse);
+        controller.disableLoadButton();
     }
 
     @FXML
@@ -139,6 +140,7 @@ public class CourseWindowController {
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
+            dialog.setResizable(false);
         } catch(IOException e) {
             System.out.println("Failed loading \"addNewLevelWindow.fxml\"");
             e.printStackTrace();
@@ -169,6 +171,7 @@ public class CourseWindowController {
 
             try {
                 dialog.getDialogPane().setContent(fxmlLoader.load());
+                dialog.setResizable(false);
             } catch (IOException e) {
                 System.out.println("Failed loading \"editLevelWindow\"");
                 return;
@@ -223,6 +226,7 @@ public class CourseWindowController {
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
+            dialog.setResizable(false);
         } catch(IOException e) {
             System.out.println("Failed loading \"addnewWordWindow.fxml\"");
             e.printStackTrace();
@@ -259,6 +263,7 @@ public class CourseWindowController {
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
 
                 BulkAddWordsController controller = fxmlLoader.getController();
                 controller.setCourseID(courseID);
@@ -288,6 +293,7 @@ public class CourseWindowController {
 
             try {
                 dialog.getDialogPane().setContent(fxmlLoader.load());
+                dialog.setResizable(false);
             } catch (IOException e) {
                 System.out.println("Failed loading \"editWordWindow\"");
                 return;

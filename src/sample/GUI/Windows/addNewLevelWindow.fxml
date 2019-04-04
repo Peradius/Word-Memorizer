@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<DialogPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.GUI.Controllers.AddNewLevelController"
-            prefHeight="400.0" prefWidth="600.0">
+<DialogPane prefHeight="400.0" prefWidth="600.0" stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.AddNewLevelController">
 
-    <headerText>
-        Add a new level!
-    </headerText>
+    <header>
+        <Label id="headingLabel" alignment="CENTER" text="Add a new level!" />
+    </header>
+
     <content>
-        <GridPane vgap="10" hgap="10">
-            <Label text="Level name: " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="levelNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <GridPane hgap="10" vgap="10">
+            <Label text="Level name: " GridPane.rowIndex="1" />
+            <TextField fx:id="levelNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Separator prefWidth="200.0" GridPane.columnSpan="2" />
+         <columnConstraints>
+            <ColumnConstraints percentWidth="40.0" />
+            <ColumnConstraints percentWidth="60.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
     </content>
 

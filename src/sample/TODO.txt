@@ -1,6 +1,6 @@
 === Przed wydaniem nowej wersji ===
 
-
+1. Naprawić GUI Settings i Users Manual
 13. Podczas review białe znaki na początku i końcu, i wielkość liter
     nie powinny mieć znaczenia
 
@@ -8,7 +8,6 @@
 
 2. Czasowe odświeżanie słówek
 3. Eksport słówek do pliku
-4. LEPSZE, ŁADNIEJSZE GUI
 5. Wersje językowe
 6. Profile użytkowników
 7. Punkty za odświeżanie

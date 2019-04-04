@@ -3,105 +3,78 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.CourseOverviewController">
+<BorderPane stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.CourseOverviewController">
     <top>
-        <Label fx:id="courseNameField" text="1" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="40.0" />
-         </font>
-         <BorderPane.margin>
-            <Insets top="5.0" />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></Label>
+        <Label id="headingLabel" fx:id="courseNameField" BorderPane.alignment="CENTER">
+             <BorderPane.margin>
+                <Insets top="5.0" />
+             </BorderPane.margin>
+        </Label>
     </top>
 
     <center>
       <VBox prefHeight="400.0" prefWidth="600.0">
+         <Separator prefWidth="200.0" />
           <HBox>
-              <Label text="Teaching language: ">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-              <Label fx:id="teachingLanguageField">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
+              <Label id="overviewLabel" text="Teaching language: ">
+                   <HBox.margin>
+                      <Insets right="10.0" />
+                   </HBox.margin>
+              </Label>
+              <Label id="overviewLabel" fx:id="teachingLanguageField" />
           </HBox>
 
           <HBox>
-              <Label text="User's language: ">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-              <Label fx:id="usersLanguageField">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
+              <Label id="overviewLabel" text="User's language: ">
+                   <HBox.margin>
+                      <Insets right="10.0" />
+                   </HBox.margin>
+              </Label>
+              <Label id="overviewLabel" fx:id="usersLanguageField" />
           </HBox>
 
           <HBox>
-              <Label text="Levels: ">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-              <Label fx:id="levelsField">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
+              <Label id="overviewLabel" text="Levels: ">
+                   <HBox.margin>
+                      <Insets right="10.0" />
+                   </HBox.margin>
+              </Label>
+              <Label id="overviewLabel" fx:id="levelsField" />
           </HBox>
 
           <HBox>
-              <Label text="Words: ">
-               <HBox.margin>
-                  <Insets bottom="30.0" right="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
-              <Label fx:id="wordsField">
-               <font>
-                  <Font size="24.0" />
-               </font></Label>
+              <Label id="overviewLabel" text="Words: ">
+                   <HBox.margin>
+                      <Insets bottom="30.0" right="10.0" />
+                   </HBox.margin>
+              </Label>
+              <Label id="overviewLabel" fx:id="wordsField" />
           </HBox>
 
           <HBox>
-              <Button fx:id="closeButton" onAction="#closeWindow" style="-fx-background-radius: 10;" text="Close">
-                  <font>
-                      <Font size="20.0" />
-                  </font>
-              </Button>
+              <Button fx:id="closeButton" onAction="#closeWindow" text="Close" />
           </HBox>
           
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>
+
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
    </center>
-   <bottom>
 
-        <Button onAction="#loadCourse" style="-fx-background-radius: 10;" text="Load Course" BorderPane.alignment="CENTER">
-            <font>
-                <Font size="20.0" />
-            </font>
+   <bottom>
+        <Button fx:id="loadCourseButton" onAction="#loadCourse" text="Load Course" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
         </Button>
    </bottom>
 </BorderPane>

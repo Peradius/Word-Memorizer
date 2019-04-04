@@ -44,6 +44,9 @@ public class CourseOverviewController {
     private Button closeButton;
 
     @FXML
+    private Button loadCourseButton;
+
+    @FXML
     public void closeWindow() {
         Stage stage = (Stage)closeButton.getScene().getWindow();
         stage.close();
@@ -90,7 +93,11 @@ public class CourseOverviewController {
         wordsField.setText(wordsCount);
     }
 
-    public void disableAllButtons() {
+    public void disableCloseButton() {
         closeButton.setVisible(false);
+    }
+
+    public void disableLoadButton() {
+        loadCourseButton.setVisible(false);
     }
 }

@@ -1,52 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<?import java.net.URL?>
-<BorderPane fx:id="mainBorderPane" stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.Controller">
+<BorderPane fx:id="mainBorderPane"
+            stylesheets="@css/default.css"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.GUI.Controllers.Controller">
    <top>
       <MenuBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-          <menus>
               <Menu text="File">
-                  <items>
-                      <MenuItem onAction="#showSettings" text="Settings" />
-                      <MenuItem onAction="#exitApp" text="Exit" />
-                  </items>
+                  <MenuItem onAction="#showSettings" text="Settings" />
+                  <MenuItem onAction="#exitApp" text="Exit" />
               </Menu>
 
               <Menu text="Course">
-                  <items>
-                      <MenuItem fx:id="addCourseItem" onAction="#addCourse" text="Add course" />
-                      <MenuItem fx:id="editCourseItem" onAction="#editCourse" text="Edit course" />
-                      <MenuItem fx:id="removeCourseItem" onAction="#removeCourse" text="Remove course" />
-                      <MenuItem fx:id="loadCourseItem" onAction="#loadCourse" text="Load course" />
-                      <SeparatorMenuItem />
-                      <MenuItem fx:id="showOverviewItem" onAction="#showOverview" text="Course overview" />
-                  </items>
+                  <MenuItem fx:id="addCourseItem" onAction="#addCourse" text="Add course" />
+                  <MenuItem fx:id="editCourseItem" onAction="#editCourse" text="Edit course" />
+                  <MenuItem fx:id="removeCourseItem" onAction="#removeCourse" text="Remove course" />
+                  <MenuItem fx:id="loadCourseItem" onAction="#loadCourse" text="Load course" />
+                  <SeparatorMenuItem />
+                  <MenuItem fx:id="showOverviewItem" onAction="#showOverview" text="Course overview" />
               </Menu>
 
               <Menu text="Help">
-                  <items>
-                      <MenuItem onAction="#showAbout" text="About" />
-                      <MenuItem onAction="#showUsersManual" text="User's Manual" />
-                  </items>
+                  <MenuItem onAction="#showAbout" text="About" />
+                  <MenuItem onAction="#showUsersManual" text="User's Manual" />
               </Menu>
-          </menus>
       </MenuBar>
    </top>
+
     <left>
         <ListView fx:id="courseListView" />
     </left>
 
     <center>
+<!--        courseOverviewWindow is here-->
     </center>
 
 </BorderPane>

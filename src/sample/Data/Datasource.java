@@ -341,10 +341,6 @@ public class Datasource {
             String foreignWord = results.getString(INDEX_WORDS_FOREIGN);
             String translatedWord = results.getString(INDEX_WORDS_TRANSLATED);
 
-            System.out.println("WORD:" + foreignWord);
-            System.out.println("ID: " + idWord);
-            System.out.println("LEVEL: " + idLevel);
-
             Word newWord = new Word();
             newWord.setIdWord(idWord);
             newWord.setIdLevel(idLevel);

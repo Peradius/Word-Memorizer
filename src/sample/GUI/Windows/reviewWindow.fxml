@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<DialogPane fx:id="reviewWindowPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.ReviewWindowController">
+<DialogPane fx:id="reviewWindowPane" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GUI.Controllers.ReviewWindowController">
 
     <header>
         <Label id="headingLabel" alignment="CENTER" text="Review your words!" />
@@ -18,10 +18,10 @@
    <content>
       <GridPane>
           <Label text="Word" GridPane.rowIndex="1" />
-          <TextField fx:id="foreignWordField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+          <TextField fx:id="foreignWordField" alignment="CENTER" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
           <Label text="Translation" GridPane.rowIndex="2" />
-          <TextField fx:id="translatedWordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+          <TextField fx:id="translatedWordField" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
           <Button onAction="#nextButton" text="Next" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
           <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />

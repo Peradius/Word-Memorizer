@@ -1,0 +1,74 @@
+.root {
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: Helvetica;
+    -fx-wrap-text: true;
+}
+
+.button {
+    -fx-background-radius: 10;
+    -fx-font-size: 16;
+}
+
+.text-field {
+    -fx-background-color: black , #a9a9a9 , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+    -fx-background-radius: 15;
+}
+
+.label {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-size: 12;
+    -fx-label-padding: 5px;
+    -fx-start-margin: 5px;
+}
+
+#overviewLabel {
+    -fx-font-size: 20;
+}
+
+#headingLabel {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-weight: bold;
+    -fx-font-size: 40;
+    -fx-label-padding: 5px;
+    -fx-start-margin: 5px;
+}
+
+#aboutHeadingLabel {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-label-padding: 5px;
+    -fx-start-margin: 5px;
+}
+
+#aboutLabel {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-family: Calibri;
+    -fx-font-size: 14;
+    -fx-start-margin: 5px;
+}
+
+#manualHeadingLabel {
+    -fx-text-alignment: center;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-font-family: Calibri;
+    -fx-font-size: 24;
+    -fx-start-margin: 5px;
+    -fx-label-padding: 5px;
+}
+
+#manualLabel {
+    -fx-wrap-text: true;
+    -fx-font-family: Calibri;
+    -fx-font-size: 14;
+    -fx-start-margin: 5px;
+    -fx-label-padding: 5px;
+}
+
+

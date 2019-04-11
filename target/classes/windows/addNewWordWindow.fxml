@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<DialogPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.AddNewWordController">
+
+    <header>
+        <Label id="headingLabel" alignment="CENTER" text="Add a new word!" />
+    </header>
+
+    <content>
+        <GridPane hgap="10" vgap="10">
+            <Label text="Word: " GridPane.rowIndex="1" />
+            <TextField fx:id="foreignWordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Translation: " GridPane.rowIndex="2" />
+            <TextField fx:id="translatedWordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Separator prefWidth="200.0" GridPane.columnSpan="2" />
+         <columnConstraints>
+            <ColumnConstraints percentWidth="40.0" />
+            <ColumnConstraints percentWidth="60.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+    </content>
+
+</DialogPane>
